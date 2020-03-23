@@ -72,9 +72,18 @@ interface BaseStyle {
   tintColors?: string[] | number[] | null;
   underlineColorAndroid?: string;
   transform?: Transform[];
+
+  //abcyun-clinic-app
+  borderRadius?: number,
+  fontWeight?: string,
+  fontSize?: number,
+  fontFamily?: string,
+  borderColor?: string,
+  lineHeight?: number
 }
 
-interface Style extends BaseStyle {}
+interface Style extends BaseStyle {
+}
 
 export default Style;
 export {

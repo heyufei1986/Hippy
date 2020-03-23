@@ -101,7 +101,7 @@ interface TextInputProps extends LayoutableProps, ClickableProps {
   /**
    * The string that will be rendered before text input has been entered.
    */
-  placeholder?: number;
+  placeholder?: string;
 
   /**
    * The text color of the placeholder string.

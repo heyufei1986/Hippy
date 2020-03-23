@@ -52,7 +52,7 @@ interface AnimationOptions {
   /**
    * Animation repeat times, use 'loop' to be alway repeating.
    */
-  repeatCount?: number;
+  repeatCount?: number | 'loop';
 
   inputRange?: any[];
   outputRange?: any[];

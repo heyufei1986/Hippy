@@ -26,7 +26,7 @@ import WebView from './components/web-view';
 import * as Native from './native';
 import * as StyleSheet from './modules/stylesheet';
 
-const  {
+const {
   AsyncStorage,
   BackAndroid,
   Bridge,
@@ -70,6 +70,12 @@ const PixelRatio = {
     return Device.screen.scale;
   },
 };
+
+import {getRootViewId, setRootContainer, getRootContainer} from './utils/node';
+import {trace, setSilent} from './utils';
+
+import renderer from './renderer';
+import Document from './dom/document-node';
 
 export {
   colorParse,
@@ -116,6 +122,14 @@ export {
   Focusable,
   WebView,
   ImageBackground,
+
+  getRootViewId,
+  getRootContainer,
+  setRootContainer,
+  trace,
+  setSilent,
+  renderer,
+  Document
 };
 
 export default HippyReact;
