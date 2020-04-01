@@ -79,7 +79,7 @@ import {trace, setSilent} from './utils';
 import renderer from './renderer';
 import Document from './dom/document-node';
 import Style from "@localTypes/style";
-import {ClickableProps, LayoutableProps} from "./types";
+import {ClickableProps, LayoutableProps, TouchableProps} from "./types";
 
 export {
   colorParse,
@@ -136,7 +136,8 @@ export {
   Document,
   Style,
   ClickableProps,
-  LayoutableProps
+  LayoutableProps,
+  TouchableProps
 };
 
 export default HippyReact;
