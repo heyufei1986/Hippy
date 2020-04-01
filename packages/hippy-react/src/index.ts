@@ -4,7 +4,7 @@ import {
   HippyEventEmitter,
   HippyEventListener,
 } from './events';
-import { colorParse } from './color';
+import {colorParse} from './color';
 import HippyReact from './hippy';
 import AppRegistry from './adapters/app-registry';
 import Animated from './adapters/animated';
@@ -25,6 +25,7 @@ import Focusable from './components/focusable';
 import WebView from './components/web-view';
 import * as Native from './native';
 import * as StyleSheet from './modules/stylesheet';
+// import * as Style from '';
 
 const {
   AsyncStorage,
@@ -71,11 +72,14 @@ const PixelRatio = {
   },
 };
 
+
 import {getRootViewId, setRootContainer, getRootContainer} from './utils/node';
 import {trace, setSilent} from './utils';
 
 import renderer from './renderer';
 import Document from './dom/document-node';
+import Style from "@localTypes/style";
+import {ClickableProps, LayoutableProps} from "./types";
 
 export {
   colorParse,
@@ -129,7 +133,10 @@ export {
   trace,
   setSilent,
   renderer,
-  Document
+  Document,
+  Style,
+  ClickableProps,
+  LayoutableProps
 };
 
 export default HippyReact;

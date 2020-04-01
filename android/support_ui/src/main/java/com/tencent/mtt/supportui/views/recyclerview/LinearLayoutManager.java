@@ -37,7 +37,7 @@ public class LinearLayoutManager extends BaseLayoutManager
 	 */
 	public LinearLayoutManager(Context context, int orientation, boolean reverseLayout)
 	{
-		super(context, orientation, false);
+		super(context, orientation, reverseLayout);
 	}
 
 	@Override
@@ -255,6 +255,25 @@ public class LinearLayoutManager extends BaseLayoutManager
 			mRecyclerView.mOffsetY -= oldItemHeight;
 			mRecyclerView.mOffsetY += newItemHeight;
 		}
+	}
+
+	@Override
+	public boolean needScrollToBase(int offset)
+	{
+		if(getReverseLayout())
+		{
+			return offset > 0;
+		}
+		else
+		{
+			return offset < 0;
+		}
+	}
+
+	@Override
+	public boolean isReverse()
+	{
+		return getReverseLayout();
 	}
 
 	@Override

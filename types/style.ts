@@ -2,15 +2,15 @@
 
 interface Transform {
   perspective?: number;
-  rotate?: string;
-  rotateX?: string;
-  rotateY?: string;
-  rotateZ?: string;
-  scale?: number;
-  scaleX?: number;
-  scaleY?: number;
-  translateX?: number;
-  translateY?: number;
+  rotate?: string | Animation;
+  rotateX?: string | Animation;
+  rotateY?: string | Animation;
+  rotateZ?: string | Animation;
+  scale?: number | Animation;
+  scaleX?: number | Animation;
+  scaleY?: number | Animation;
+  translateX?: number | Animation;
+  translateY?: number | Animation;
   skewX?: string;
   skewY?: string;
 }
@@ -23,8 +23,8 @@ interface BaseStyle {
   backgroundImage?: string;
   backgroundSize?: string;
   backgroundPosition?: string;
-  width?: number;
-  height?: number;
+  width?: number | Animation;
+  height?: number | Animation;
   top?: number;
   left?: number;
   right?: number;

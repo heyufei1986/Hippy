@@ -656,41 +656,69 @@ public abstract class BaseLayoutManager extends RecyclerViewBase.LayoutManager
 			extraForStart = extra;
 			extraForEnd = 0;
 		}
+
+		int startOffset;
+		int endOffset;
+
 		// first fill towards start
 		updateRenderStateToFillStart(anchorItemPosition, anchorCoordinate);
 		mRenderState.mExtra = extraForStart;
-		if (!layoutFromEnd)
-		{
+
+		if (!layoutFromEnd) {
 			mRenderState.mCurrentPosition += mRenderState.mItemDirection;
 		}
-		fill(recycler, mRenderState, state, false);
-		int currPos = mRenderState.mCurrentPosition - mRenderState.mItemDirection;
-		// Log.d("Scrollbar", "currPos=" + currPos);
-		int startOffset = mRenderState.mOffset;
-		if (mOrientation == VERTICAL)
-		{
-			//			Log.e("leo", "after fill mOffsetY " + mRecyclerView.mOffsetY);
-			mRecyclerView.mOffsetY = getHeightBefore(currPos) - startOffset;
-			//			Log.e("leo", "after fill == mOffsetY " + mRecyclerView.mOffsetY);
-			//			Log.d("leo", "in onLayout offset=" + mRecyclerView.mOffsetY);
-		}
-		else if (mOrientation == HORIZONTAL)
-		{
 
-			mRecyclerView.mOffsetX = getHeightBefore(currPos) - startOffset;
-			//			Log.d("leo", "in onLayout offset=" + mRecyclerView.mOffsetY);
+		int	currPos = mRenderState.mCurrentPosition;
+
+		fill(recycler, mRenderState, state, false);
+
+		if(!layoutFromEnd)
+		{
+			currPos = mRenderState.mCurrentPosition - mRenderState.mItemDirection;
 		}
+
+		// Log.d("Scrollbar", "currPos=" + currPos);
+		startOffset = mRenderState.mOffset;
+
 		// fill towards end
 		updateRenderStateToFillEnd(anchorItemPosition, anchorCoordinate);
 		mRenderState.mExtra = extraForEnd;
-		if (layoutFromEnd)
-		{
+		if (layoutFromEnd) {
 			mRenderState.mCurrentPosition += mRenderState.mItemDirection;
 		}
 		fill(recycler, mRenderState, state, false);
-		int endOffset = mRenderState.mOffset;
+		endOffset = mRenderState.mOffset;
 		mRecyclerView.onItemsFill(endOffset);
 		mRecyclerView.checkNotifyFooterAppearWithFewChild(endOffset);
+
+
+		if(layoutFromEnd)
+		{
+			if (mOrientation == VERTICAL) {
+				//			Log.e("leo", "after fill mOffsetY " + mRecyclerView.mOffsetY);
+				mRecyclerView.mOffsetY = -getHeightAfter(currPos) - (endOffset - getHeight()) ;
+				//			Log.e("leo", "after fill == mOffsetY " + mRecyclerView.mOffsetY);
+				//			Log.d("leo", "in onLayout offset=" + mRecyclerView.mOffsetY);
+			} else if (mOrientation == HORIZONTAL) {
+
+				mRecyclerView.mOffsetX = 0;
+				//			Log.d("leo", "in onLayout offset=" + mRecyclerView.mOffsetY);
+			}
+		}
+		else
+		{
+			if (mOrientation == VERTICAL) {
+				//			Log.e("leo", "after fill mOffsetY " + mRecyclerView.mOffsetY);
+				mRecyclerView.mOffsetY = getHeightBefore(currPos) - startOffset;
+				//			Log.e("leo", "after fill == mOffsetY " + mRecyclerView.mOffsetY);
+				//			Log.d("leo", "in onLayout offset=" + mRecyclerView.mOffsetY);
+			} else if (mOrientation == HORIZONTAL) {
+
+				mRecyclerView.mOffsetX = getHeightBefore(currPos) - startOffset;
+				//			Log.d("leo", "in onLayout offset=" + mRecyclerView.mOffsetY);
+			}
+		}
+
 		//		checkChildNotMuch(endOffset);
 		// changes may cause gaps on the UI, try to fix them.
 		if (getChildCount() > 0 && !mPreventFixGap)
@@ -713,16 +741,32 @@ public abstract class BaseLayoutManager extends RecyclerViewBase.LayoutManager
 			// {
 			if (getHeight() <= mRecyclerView.mAdapter.getListTotalHeight())
 			{
-				int fixOffset = fixLayoutStartGap(startOffset, recycler, state, true);
-				startOffset += fixOffset;
-				// TODO:这里注释掉了，可以解决问题，但不知道会不会引起其他问题。
-				// if (getHeight() <= mRecyclerView.mAdapter.getTotalHeight())
-				// {
-				endOffset += fixOffset;
-				// }
-				fixOffset = fixLayoutEndGap(endOffset, recycler, state, false);
-				startOffset += fixOffset;
-				endOffset += fixOffset;
+
+				if(layoutFromEnd)
+				{
+					 int fixOffset = fixLayoutEndGap(endOffset, recycler, state,
+					 true);
+					 startOffset += fixOffset;
+					 endOffset += fixOffset;
+					 fixOffset = fixLayoutStartGap(startOffset, recycler, state,
+					 false);
+					 startOffset += fixOffset;
+					 endOffset += fixOffset;
+				}
+				else
+				{
+					int fixOffset = fixLayoutStartGap(startOffset, recycler, state, true);
+					startOffset += fixOffset;
+					// TODO:这里注释掉了，可以解决问题，但不知道会不会引起其他问题。
+					// if (getHeight() <= mRecyclerView.mAdapter.getTotalHeight())
+					// {
+					endOffset += fixOffset;
+					// }
+					fixOffset = fixLayoutEndGap(endOffset, recycler, state, false);
+					startOffset += fixOffset;
+					endOffset += fixOffset;
+				}
+
 			}
 			else
 			{
@@ -845,6 +889,15 @@ public abstract class BaseLayoutManager extends RecyclerViewBase.LayoutManager
 		if (mRecyclerView != null)
 		{
 			return mRecyclerView.getHeightBefore(pos);
+		}
+		return 0;
+	}
+
+	protected  int getHeightAfter(int pos)
+	{
+		if (mRecyclerView != null)
+		{
+			return mRecyclerView.getHeightAfter(pos);
 		}
 		return 0;
 	}
