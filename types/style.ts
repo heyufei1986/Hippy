@@ -79,7 +79,8 @@ interface BaseStyle {
   fontSize?: number,
   fontFamily?: string,
   borderColor?: string,
-  lineHeight?: number
+  lineHeight?: number,
+  textAlign?:'left'|'center'|'right',
 }
 
 interface Style extends BaseStyle {
