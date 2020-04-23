@@ -80,6 +80,8 @@ import renderer from './renderer';
 import Document from './dom/document-node';
 import Style from "@localTypes/style";
 import {ClickableProps, LayoutableProps, TouchableProps} from "./types";
+import {LayoutEvent, TouchEvent} from '@localTypes/event';
+
 
 export {
   colorParse,
@@ -137,7 +139,9 @@ export {
   Style,
   ClickableProps,
   LayoutableProps,
-  TouchableProps
+  TouchableProps,
+  LayoutEvent,
+  TouchEvent
 };
 
 export default HippyReact;
