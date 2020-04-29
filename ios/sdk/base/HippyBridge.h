@@ -258,4 +258,8 @@ HIPPY_EXTERN NSString *HippyBridgeModuleNameForClass(Class bridgeModuleClass);
 - (void)bindKeys;
 
 
+///abcyun扩展
+//当前是否可以扣边返回
+@property (nonatomic, assign) BOOL screenEdgeGestureRecognizerEnable;
+
 @end

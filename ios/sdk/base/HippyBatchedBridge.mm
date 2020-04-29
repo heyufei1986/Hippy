@@ -1212,4 +1212,12 @@ HIPPY_NOT_IMPLEMENTED(- (instancetype)initWithBundleURL:(__unused NSURL *)bundle
     return _wasBatchActive;
 }
 
+- (void)setScreenEdgeGestureRecognizerEnable:(BOOL)screenEdgeGestureRecognizerEnable {
+    self.parentBridge.screenEdgeGestureRecognizerEnable = screenEdgeGestureRecognizerEnable;
+}
+
+- (BOOL)screenEdgeGestureRecognizerEnable {
+    return self.parentBridge.screenEdgeGestureRecognizerEnable;
+}
+
 @end
