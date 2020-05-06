@@ -80,7 +80,8 @@ interface BaseStyle {
   fontFamily?: string,
   borderColor?: string,
   lineHeight?: number,
-  textAlign?:'left'|'center'|'right',
+  textAlign?: 'left' | 'center' | 'right',
+  borderBottomColor?: string | number
 }
 
 interface Style extends BaseStyle {
