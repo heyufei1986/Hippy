@@ -23,13 +23,13 @@ import com.tencent.mtt.hippy.common.ThreadExecutor;
  * FileName: HippyNormalEngineManager
  * Description：
  */
-public final class HippyNormalEngineManager extends HippyEngineManagerImpl
+public class HippyNormalEngineManager extends HippyEngineManagerImpl
 {
 	private volatile ThreadExecutor mThreadExecutor;
 
 	private Object					mLock	= new Object();
 
-	HippyNormalEngineManager(EngineInitParams params, HippyBundleLoader preloadBundleLoader)
+	public HippyNormalEngineManager(EngineInitParams params, HippyBundleLoader preloadBundleLoader)
 	{
 		super(params, preloadBundleLoader);
 	}

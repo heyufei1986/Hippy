@@ -197,7 +197,7 @@ public abstract class HippyEngine
 
 	/**
 	 * send event
-	 * 
+	 *
 	 * @param event
 	 * @param params
 	 */
@@ -310,7 +310,7 @@ public abstract class HippyEngine
 		@Deprecated
 		public HippyLogAdapter logAdapter;
 
-		protected void check()
+		public void check()
 		{
 			if (context == null)
 				throw new IllegalArgumentException(EngineInitParams.class.getName() + " context must not be null!");
