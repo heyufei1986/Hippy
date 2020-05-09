@@ -89,8 +89,9 @@ public class HippyTextInput extends EditText implements HippyViewBase, CommonBor
     mDefaultGravityVertical = getGravity() & Gravity.VERTICAL_GRAVITY_MASK;
     // 临时规避一下EditTextView重设hint不生效的问题
     setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-    int hPadding = Math.round(PixelUtil.dp2px(6.0));
-    setPadding(hPadding, 0, hPadding, 0);
+    Rect padding = TextInputDefaultPadding.DefaultPadding;
+    setPadding(padding.left, padding.top, padding.right, padding.bottom);
+    getBackground().setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN);
 	}
 
 	@Override
