@@ -24,6 +24,7 @@ import com.tencent.mtt.hippy.uimanager.HippyViewBase;
 import com.tencent.mtt.hippy.uimanager.NativeGestureDispatcher;
 import com.tencent.mtt.hippy.utils.ContextHolder;
 import com.tencent.mtt.hippy.utils.LogUtils;
+import com.tencent.mtt.hippy.utils.PixelUtil;
 import com.tencent.mtt.hippy.views.common.CommonBackgroundDrawable;
 import com.tencent.mtt.hippy.views.common.CommonBorder;
 
@@ -88,7 +89,8 @@ public class HippyTextInput extends EditText implements HippyViewBase, CommonBor
     mDefaultGravityVertical = getGravity() & Gravity.VERTICAL_GRAVITY_MASK;
     // 临时规避一下EditTextView重设hint不生效的问题
     setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-    setPadding(0, 0, 0, 0);
+    int hPadding = Math.round(PixelUtil.dp2px(6.0));
+    setPadding(hPadding, 0, hPadding, 0);
 	}
 
 	@Override
@@ -136,7 +138,7 @@ public class HippyTextInput extends EditText implements HippyViewBase, CommonBor
 		{
 			getRootView().getViewTreeObserver().addOnGlobalLayoutListener(globaListener);
 		}
-			
+
 	}
 
 	@Override
@@ -565,22 +567,34 @@ public class HippyTextInput extends EditText implements HippyViewBase, CommonBor
 		getOrCreateReactViewBackground().setBorderWidth(width, position);
 	}
 
-	private CommonBackgroundDrawable getOrCreateReactViewBackground()
+  @Override
+  public void setBackgroundDrawable(Drawable background) {
+    int paddingBottom = getPaddingBottom();
+    int paddingTop = getPaddingTop();
+    int paddingLeft = getPaddingLeft();
+    int paddingRight = getPaddingRight();
+
+    super.setBackgroundDrawable(background);
+
+    setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+  }
+
+  private CommonBackgroundDrawable getOrCreateReactViewBackground()
 	{
 		if (mReactBackgroundDrawable == null)
 		{
 			mReactBackgroundDrawable = new CommonBackgroundDrawable();
 			Drawable backgroundDrawable = getBackground();
-			super.setBackgroundDrawable(null); // required so that drawable callback is cleared before we add the
+			setBackgroundDrawable(null); // required so that drawable callback is cleared before we add the
 			// drawable back as a part of LayerDrawable
 			if (backgroundDrawable == null)
 			{
-				super.setBackgroundDrawable(mReactBackgroundDrawable);
+				setBackgroundDrawable(mReactBackgroundDrawable);
 			}
 			else
 			{
 				LayerDrawable layerDrawable = new LayerDrawable(new Drawable[] { mReactBackgroundDrawable, backgroundDrawable });
-				super.setBackgroundDrawable(layerDrawable);
+				setBackgroundDrawable(layerDrawable);
 			}
 		}
 		return mReactBackgroundDrawable;
