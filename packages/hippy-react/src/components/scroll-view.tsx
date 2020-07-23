@@ -196,6 +196,7 @@ class ScrollView extends React.Component<ScrollViewProps, {}> {
       contentContainerStyle,
       children,
       style,
+      onContentSizeChanged,
     } = this.props;
     const contentContainerStyle_ = [
       horizontal ? styles.contentContainerHorizontal : styles.contentContainerVertical,
@@ -213,7 +214,13 @@ class ScrollView extends React.Component<ScrollViewProps, {}> {
         {...this.props}
         style={newStyle}
       >
-        <View style={contentContainerStyle_}>
+        <View style={contentContainerStyle_}
+              onLayout={evt => {
+                if (onContentSizeChanged) {
+                  onContentSizeChanged({width: evt.layout.width, height: evt.layout.height});
+                }
+              }}
+        >
           {children}
         </View>
       </div>
