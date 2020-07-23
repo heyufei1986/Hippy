@@ -4,8 +4,9 @@ import React from 'react';
 import Style from '@localTypes/style';
 import View from './view';
 import * as StyleSheet from '../modules/stylesheet';
-import { callUIFunction } from '../modules/ui-manager-module';
-import { warn } from '../utils';
+import {callUIFunction} from '../modules/ui-manager-module';
+import {warn} from '../utils';
+import {LayoutEvent} from "../index";
 
 interface ScrollViewProps {
   /**
@@ -93,7 +94,7 @@ interface ScrollViewProps {
    * @param {number} evt.contentOffset.x - Offset X of scrolling.
    * @param {number} evt.contentOffset.y - Offset Y of scrolling.
    */
-  onScroll?(evt: { contentOffset: { x: number, y: number }}): void;
+  onScroll?(evt: { contentOffset: { x: number, y: number } }): void;
 
   /**
    * Called when the user begins to drag the scroll view.
@@ -104,7 +105,16 @@ interface ScrollViewProps {
    * Called when the user stops dragging the scroll view and it either stops or begins to glide.
    */
   onScrollEndDrag?(): void;
+
   style?: Style;
+
+  onLayout?: (evt: LayoutEvent) => void;
+
+  /**
+   * called when content size changed
+   * @param evt
+   */
+  onContentSizeChanged?: (evt: { width: number, height: number }) => void;
 }
 
 const styles = StyleSheet.create({
@@ -157,7 +167,7 @@ class ScrollView extends React.Component<ScrollViewProps, {}> {
     if (typeof x === 'number') {
       warn('`scrollTo(x, y, animated)` is deprecated, Use `scrollTo({x: 5, y: 5, animated: true})` instead.');
     } else if (typeof x === 'object' && x) {
-      ({ x: x_, y: y_, animated: animated_ } = x);
+      ({x: x_, y: y_, animated: animated_} = x);
     }
     x_ = x_ || 0;
     y_ = y_ || 0;
@@ -174,7 +184,7 @@ class ScrollView extends React.Component<ScrollViewProps, {}> {
    *                            By default is 1000ms.
    */
   public scrollToWithDuration(x = 0, y = 0, duration = 1000) {
-    callUIFunction(this.instance, 'scrollToWithOptions', [{ x, y, duration }]);
+    callUIFunction(this.instance, 'scrollToWithOptions', [{x, y, duration}]);
   }
 
   /**
@@ -197,7 +207,9 @@ class ScrollView extends React.Component<ScrollViewProps, {}> {
     return (
       <div
         nativeName="ScrollView"
-        ref={(ref) => { this.instance = ref; }}
+        ref={(ref) => {
+          this.instance = ref;
+        }}
         {...this.props}
         style={newStyle}
       >
@@ -208,4 +220,5 @@ class ScrollView extends React.Component<ScrollViewProps, {}> {
     );
   }
 }
+
 export default ScrollView;

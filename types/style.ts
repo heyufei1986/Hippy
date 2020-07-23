@@ -73,7 +73,7 @@ interface BaseStyle {
   underlineColorAndroid?: string;
   transform?: Transform[];
 
-  //abcyun-clinic-app
+  // abcyun-clinic-app
   borderRadius?: number,
   fontWeight?: string,
   fontSize?: number,
@@ -81,6 +81,7 @@ interface BaseStyle {
   borderColor?: string,
   lineHeight?: number,
   textAlign?: 'left' | 'center' | 'right',
+  letterSpacing?: number,
   borderBottomColor?: string | number
 }
 
