@@ -174,3 +174,8 @@ public void forceUpdateNode(int);
 -keep class com.tencent.mtt.hippy.dom.node.TypeFaceUtil {*;}
 
 
+-keep class com.tencent.mtt.hippy.dom.flex.*{*;}
+
+-keep class com.tencent.mtt.hippy.uimanager.ListItemRenderNode{*;}
+
+

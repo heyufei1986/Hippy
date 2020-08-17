@@ -98,7 +98,7 @@ public class DevServerImpl implements View.OnClickListener, DevServerInterface, 
 		else
 		{
 			new AlertDialog.Builder(v.getContext()).setItems(
-					new String[] { "Reload", isLiveReloadEnable ? "Disable Live Reload" : "Enable Live Reload" }, new DialogInterface.OnClickListener()
+					new String[] { "Reload", isLiveReloadEnable ? "Disable Live Reload" : "Enable Live Reload", "退出调试" }, new DialogInterface.OnClickListener()
 					{
 						@Override
 						public void onClick(DialogInterface dialog, int which)
@@ -112,6 +112,10 @@ public class DevServerImpl implements View.OnClickListener, DevServerInterface, 
 									mServerConfig.setEnableLiveDebug(!isLiveReloadEnable);
 									startLiveDebug();
 									break;
+                case 2:
+                  if(mServerCallBack != null)
+                    mServerCallBack.onExitDebugMode();
+                  break;
 							}
 						}
 					}).show();
