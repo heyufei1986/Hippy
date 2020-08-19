@@ -16,6 +16,7 @@
 package com.tencent.mtt.hippy.uimanager;
 
 import android.text.TextUtils;
+import android.util.Pair;
 import android.util.SparseArray;
 import android.view.View;
 import com.tencent.mtt.hippy.HippyRootView;
@@ -48,6 +49,7 @@ public class RenderNode
 	SparseArray<Integer> mDeletedIdIndexMap;
 
 	List<Promise>		mMeasureInWindows		= null;
+  List<Pair<Integer, Promise>>		mMeasureInAncestors		= null;
 	Object				mTextExtra;
 	Object				mTextExtraUpdate;
 
@@ -411,6 +413,18 @@ public class RenderNode
 				mMeasureInWindows = null;
 
 			}
+
+      if (mMeasureInAncestors != null && mMeasureInAncestors.size() > 0)
+      {
+        for (int i = 0; i < mMeasureInAncestors.size(); i++)
+        {
+          Pair<Integer, Promise> promise= mMeasureInAncestors.get(i);
+          mComponentManager.measureInAncestor(mId, promise.first, promise.second);
+        }
+        mMeasureInAncestors.clear();
+        mMeasureInAncestors = null;
+
+      }
 			if (mNotifyManageChildren)
 			{
 				manageChildrenComplete();
@@ -432,14 +446,28 @@ public class RenderNode
 		mHasUpdateLayout = true;
 	}
 
-	public void measureInWindow(Promise promise)
-	{
-		if (mMeasureInWindows == null)
-		{
-			mMeasureInWindows = new ArrayList<>();
-		}
-		mMeasureInWindows.add(promise);
-	}
+  public void measureInWindow(Promise promise)
+  {
+    if (mMeasureInWindows == null)
+    {
+      mMeasureInWindows = new ArrayList<>();
+    }
+    mMeasureInWindows.add(promise);
+  }
+
+
+
+  public void measureInAncestor(int ancestorId, Promise promise)
+  {
+    if (mMeasureInAncestors == null)
+    {
+      mMeasureInAncestors = new ArrayList<>();
+    }
+
+    mMeasureInAncestors.add(new Pair<Integer, Promise>(ancestorId, promise));
+  }
+
+
 
 
 	class MoveHolder

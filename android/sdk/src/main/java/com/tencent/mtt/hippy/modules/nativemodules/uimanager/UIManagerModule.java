@@ -154,7 +154,19 @@ public class UIManagerModule extends HippyNativeModuleBase
 		LogUtils.d("UIManagerModule", id + "" + promise);
 	}
 
-	@HippyMethod(name = "startBatch")
+  @HippyMethod(name = "measureInAncestor")
+  public void measureInAncestor(int id,  int ancestorId, Promise promise)
+  {
+    DomManager domManager = this.mContext.getDomManager();
+    if(domManager != null)
+    {
+      domManager.measureInAncestor(id, ancestorId, promise);
+    }
+    LogUtils.d("UIManagerModule", id + "" + promise);
+  }
+
+
+  @HippyMethod(name = "startBatch")
 	public void startBatch(String renderID)
 	{
 		DomManager domManager = this.mContext.getDomManager();

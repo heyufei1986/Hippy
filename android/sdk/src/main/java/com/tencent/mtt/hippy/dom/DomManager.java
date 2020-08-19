@@ -1040,6 +1040,18 @@ public class DomManager implements HippyInstanceLifecycleEventListener, HippyEng
 		});
 	}
 
+  public void measureInAncestor(final int id, final int ancestorId, final Promise promise)
+  {
+    addNulUITask(new IDomExecutor()
+    {
+      @Override
+      public void exec()
+      {
+        mRenderManager.measureInAncestor(id, ancestorId, promise);
+      }
+    });
+  }
+
 	class ViewIndex
 	{
 		public boolean	mResult;
