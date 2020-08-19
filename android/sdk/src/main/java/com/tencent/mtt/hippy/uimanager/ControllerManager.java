@@ -529,10 +529,10 @@ public class ControllerManager implements HippyInstanceLifecycleEventListener
         // We need to remove the status bar from the height.  getLocationOnScreen will include the
         // status bar.
         statusBarHeight = getStatusBarHeightFromSystem();
-//        if (statusBarHeight > 0)
-//        {
-//          outputBuffer[1] -= statusBarHeight;
-//        }
+        if (statusBarHeight > 0)
+        {
+          outputBuffer[1] -= statusBarHeight;
+        }
 
         // outputBuffer[0,1] already contain what we want
         outputBuffer[2] = v.getWidth();
