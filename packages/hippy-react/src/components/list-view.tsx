@@ -7,7 +7,7 @@ import { Device } from '../native';
 
 type DataItem = any;
 
-interface ListViewProps {
+export interface ListViewProps {
   /**
    * Render specific number of rows of data.
    * Set equal to dataShource.length in most case.
@@ -336,3 +336,5 @@ ListView.defaultProps = {
 };
 
 export default ListView;
+
+export {ListItemViewProps}

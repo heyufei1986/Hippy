@@ -27,6 +27,8 @@ import * as Native from './native';
 import * as StyleSheet from './modules/stylesheet';
 // import * as Style from '';
 
+
+
 const {
   AsyncStorage,
   BackAndroid,
@@ -81,6 +83,8 @@ import Document from './dom/document-node';
 import Style from "@localTypes/style";
 import {ClickableProps, LayoutableProps, TouchableProps} from "./types";
 import {LayoutEvent, TouchEvent} from '@localTypes/event';
+
+import {ListViewProps} from  './components/list-view';
 
 
 export {
@@ -141,7 +145,9 @@ export {
   LayoutableProps,
   TouchableProps,
   LayoutEvent,
-  TouchEvent
+  TouchEvent,
+  ListViewProps,
+
 };
 
 export default HippyReact;

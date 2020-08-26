@@ -78,11 +78,13 @@ interface BaseStyle {
   fontWeight?: string,
   fontSize?: number,
   fontFamily?: string,
-  borderColor?: string,
   lineHeight?: number,
   textAlign?: 'left' | 'center' | 'right',
   letterSpacing?: number,
-  borderBottomColor?: string | number
+  borderBottomColor?: string | number,
+  borderColor?: string |number,
+  borderTopColor?:string | number,
+  borderRightColor?:string | number,
 }
 
 interface Style extends BaseStyle {
