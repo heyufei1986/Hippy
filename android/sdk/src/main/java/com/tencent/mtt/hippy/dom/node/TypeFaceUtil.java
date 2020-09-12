@@ -20,6 +20,7 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
 import com.tencent.mtt.hippy.utils.ContextHolder;
 import com.tencent.mtt.hippy.utils.LogUtils;
@@ -29,6 +30,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,6 +48,19 @@ public class TypeFaceUtil
 	private static final String				FONTS_PATH		= "fonts/";
 
 	private static Map<String, Typeface>	mFontCache		= new HashMap<>();
+
+	private static ArrayList<String> mFontDirs = new ArrayList<>();
+	private static ArrayList<String> mFontAssetDirs = new ArrayList<>();
+
+	public static void addFontsDir(String dir) {
+		if (!mFontDirs.contains(dir))
+			mFontDirs.add(dir);
+	}
+
+	public static void addAssetFontsDir(String dir) {
+		if (!mFontAssetDirs.contains(dir))
+			mFontAssetDirs.add(dir);
+	}
 
 	public static Typeface getTypeface(String fontFamilyName, int style)
 	{
@@ -68,19 +83,46 @@ public class TypeFaceUtil
 		String extension = EXTENSIONS[style];
 		for (String fileExtension : FONT_EXTENSIONS)
 		{
-			String fileName = new StringBuilder().append(FONTS_PATH).append(fontFamilyName).append(extension).append(fileExtension).toString();
-			try
-			{
-				return Typeface.createFromAsset(ContextHolder.getAppContext().getAssets(), fileName);
+			String fileName ="";
+			for (String dir: mFontDirs) {
+				fileName = dir + fontFamilyName +  extension + fileExtension;
+//				Log.d(TAG, "createTypeface() createFromFile called with: fontFamilyName = [" + fontFamilyName + "], style = [" + style + "], fileName = " + fileName + ", begin");
+				if (new File(fileName).exists()) {
+					try {
+						Typeface typeface = Typeface.createFromFile(fileName);
+//						Log.d(TAG, "createTypeface() createFromFile called with: fontFamilyName = [" + fontFamilyName + "], style = [" + style + "], fileName = " + fileName);
+						return typeface;
+					}catch (Exception e) {
+					}
+					return Typeface.create(fontFamilyName, style);
+				}
 			}
-			catch (RuntimeException e)
-			{
-				e.printStackTrace();
+
+			for (String dir : mFontAssetDirs) {
+				Typeface typeface = TypeFaceUtil.createFromAsset(new StringBuilder().append(dir).append(fontFamilyName).append(extension).append(fileExtension).toString());
+				if (typeface != null)
+				return typeface;
 			}
+
+			return TypeFaceUtil.createFromAsset(new StringBuilder().append(FONTS_PATH).append(fontFamilyName).append(extension).append(fileExtension).toString());
 		}
 
 		return Typeface.create(fontFamilyName, style);
 	}
+
+	private static Typeface createFromAsset(String fileName) {
+    try
+    {
+      return Typeface.createFromAsset(ContextHolder.getAppContext().getAssets(), fileName);
+    }
+    catch (RuntimeException e)
+    {
+      e.printStackTrace();
+    }
+
+    return null;
+  }
+
 	public static boolean checkFontExist(String fontFamilyName, int style)
 	{
 		String cache = fontFamilyName + style;

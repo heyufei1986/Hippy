@@ -40,7 +40,7 @@ interface ViewProps extends LayoutableProps, ClickableProps, TouchableProps {
   nextFocusUpId?: string | Fiber;
   nextFocusLeftId?: string | Fiber;
   nextFocusRightId?: string | Fiber;
-  style?: (Style|any) | (Style|any)[];
+  style?: Style | Style[];
 
   /**
    * The focus event occurs when the component is focused.

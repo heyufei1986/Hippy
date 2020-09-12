@@ -84,6 +84,7 @@ interface BaseStyle {
   borderBottomColor?: string | number,
   borderColor?: string |number,
   borderTopColor?:string | number,
+  borderLeftColor?:string | number,
   borderRightColor?:string | number,
 }
 
