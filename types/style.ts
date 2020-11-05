@@ -86,6 +86,7 @@ interface BaseStyle {
   borderTopColor?:string | number,
   borderLeftColor?:string | number,
   borderRightColor?:string | number,
+  borderStyle?: 'solid' | 'dotted' | 'dashed'
 }
 
 interface Style extends BaseStyle {
