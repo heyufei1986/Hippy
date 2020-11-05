@@ -5,8 +5,8 @@ android {
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.tencent.mtt.hippy.example"
-        minSdkVersion 14
-        targetSdkVersion 21
+        minSdkVersion 17
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         ndk {
