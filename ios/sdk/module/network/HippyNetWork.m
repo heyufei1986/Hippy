@@ -40,9 +40,22 @@ HippyFetchInfo *fetchInfoForSessionTask(NSURLSessionTask *task) {
     return info;
 }
 
-@implementation HippyNetWork
+@implementation HippyNetWork {
+    NSURLSession* _urlSession;
+}
 
 HIPPY_EXPORT_MODULE(network)
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+          NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+          sessionConfiguration.protocolClasses = [self protocolClasses];
+          _urlSession = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
+    }
+    return self;
+}
 
 HIPPY_EXPORT_METHOD(fetch:(NSDictionary *)params resolver:(__unused HippyPromiseResolveBlock)resolve rejecter:(__unused HippyPromiseRejectBlock)reject)
 {
@@ -90,10 +103,7 @@ HIPPY_EXPORT_METHOD(fetch:(NSDictionary *)params resolver:(__unused HippyPromise
     NSString *redirect = params[@"redirect"];
     BOOL report302Status = (nil == redirect || [redirect isEqualToString:@"manual"]);
     HippyFetchInfo *fetchInfo = [[HippyFetchInfo alloc] initWithResolveBlock:resolve rejectBlock:reject report302Status:report302Status];
-    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    sessionConfiguration.protocolClasses = [self protocolClasses];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
-    NSURLSessionTask *task = [session dataTaskWithRequest:request];
+    NSURLSessionTask *task = [_urlSession dataTaskWithRequest:request];
     setFetchInfoForSessionTask(task, fetchInfo);
     [task resume];
 }

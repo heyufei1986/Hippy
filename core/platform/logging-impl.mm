@@ -31,6 +31,8 @@
 #include <iostream>
 #endif  // OS_ANDROID
 
+#import <Foundation/Foundation.h>
+
 namespace hippy {
 namespace platform {
 
@@ -47,10 +49,7 @@ namespace platform {
   void napi_log_##FunctionName(const char* format, ...) { \
     va_list va;                                           \
     va_start(va, format);                                 \
-    std::cout << "[HippyCore][" #LogLevel "]"             \
-              << ": ";                                    \
-    vprintf(format, va);                                  \
-    std::cout << std::endl;                               \
+    NSLog(@"[HippyCore][%s]:%@", #LogLevel, [NSString stringWithFormat: [NSString stringWithUTF8String:format], va]);  \
     va_end(va);                                           \
   }
 #endif  // OS_ANDROID
@@ -58,6 +57,7 @@ namespace platform {
 LOG_FUNCTION_NAME_PAIRS(V)
 
 #undef V
+
 
 }  // namespace platform
 }  // namespace hippy

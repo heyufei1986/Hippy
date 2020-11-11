@@ -179,10 +179,10 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
 
 - (void)setSource:(NSArray *)source
 {
-	if (![_source isEqualToArray: source]) {
-		_source = [source copy];
+    if (![_source isEqualToArray: source]) {
+        _source = [source copy];
         self.animatedImage = nil;
-		[self updateImage: nil];
+        [self updateImage: nil];
 		[self reloadImage];
 	}
 }
@@ -300,7 +300,7 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
 				if (weakSelf.onProgress) {
 					weakSelf.onProgress(@{@"loaded": @((double)currentLength), @"total": @((double)totalLength)});
 				}
-			} completed:^(NSData *data, NSURL *url, NSError *error) {
+			} completed:^(NSData *data, UIImage* image, NSURL *url, NSError *error) {
                 BOOL isSharpP = NO;
                 if ([data hippy_isGif] || isSharpP) {
                     if (weakSelf.animatedImageOperation) {
@@ -309,7 +309,9 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
                     weakSelf.animatedImageOperation = [[HippyAnimatedImageOperation alloc] initWithAnimatedImageData:data imageView:weakSelf imageURL:url.absoluteString];
                     [animated_image_queue() addOperation:weakSelf.animatedImageOperation];
                 }
-                else {
+                else if (image) {
+                    [weakSelf loadImage: image url: url.absoluteString error: error needBlur:YES needCache:YES];
+                }else{
                     UIImage *image = [weakSelf imageFromData:data];
                     [weakSelf loadImage: image url: url.absoluteString error: error needBlur:YES needCache:YES];
                 }

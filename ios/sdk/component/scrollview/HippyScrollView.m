@@ -366,6 +366,29 @@ HIPPY_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 
 - (void)scrollToOffset:(CGPoint)offset animated:(BOOL)animated
 {
+    //clamp  offset to vaild offset range
+    CGFloat offsetX = offset.x;
+    CGFloat offsetY = offset.y;
+    CGFloat maxOffsetX = _scrollView.contentSize.width - _scrollView.bounds.size.width;
+    if (offsetX > maxOffsetX) {
+        offsetX = maxOffsetX;
+    }
+    
+    if (offsetX < 0) {
+         offsetX = 0;
+     }
+    
+    CGFloat maxOffsetY = _scrollView.contentSize.height - _scrollView.bounds.size.height;
+    if (offsetY > maxOffsetY) {
+        offsetY = maxOffsetY;
+    }
+
+    if(offsetY < 0) {
+        offsetY = 0;
+    }
+    
+    offset = CGPointMake(offsetX, offsetY);
+    
     if (!CGPointEqualToPoint(_scrollView.contentOffset, offset)) {
         // Ensure at least one scroll event will fire
         _allowNextScrollNoMatterWhat = YES;

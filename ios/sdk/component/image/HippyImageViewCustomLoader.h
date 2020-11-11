@@ -33,7 +33,7 @@
  placeholderImage:(UIImage *)placeholderImage
 		  context:(void *)context
 		 progress:(void (^)(long long, long long))progressBlock
-		completed:(void (^)(NSData *, NSURL *, NSError *))completedBlock;
+		completed:(void (^)(NSData *, UIImage*image, NSURL *, NSError *))completedBlock;
 
 - (void)cancelImageDownload:(UIImageView *)imageView withUrl:(NSURL *)url;
 

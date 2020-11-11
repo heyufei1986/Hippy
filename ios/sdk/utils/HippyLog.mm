@@ -213,7 +213,7 @@ void _HippyLogNativeInternal(HippyLogLevel level, const char *fileName, int line
       logFunction(level, HippyLogSourceNative, fileName ? @(fileName) : nil, lineNumber > 0 ? @(lineNumber) : nil, message);
     }
 
-#if HIPPY_DEBUG
+//#if HIPPY_DEBUG
 
     // Log to red box in debug mode.
     if ([UIApplication sharedApplication] && level >= HippyLOG_REDBOX_LEVEL) {
@@ -245,7 +245,7 @@ void _HippyLogNativeInternal(HippyLogLevel level, const char *fileName, int line
       [[HippyBridge currentBridge] logMessage:message level:level ? @(HippyLogLevels[level]) : @"info"];
     }
 
-#endif
+//#endif
 
   }
 }
