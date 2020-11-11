@@ -37,6 +37,4 @@
 
 - (void)cancelImageDownload:(UIImageView *)imageView withUrl:(NSURL *)url;
 
-@optional
-- (void)test;
 @end
