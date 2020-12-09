@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.4](https://github.com/Tencent/Hippy/tree/master/packages/hippy-react/compare/2.1.3...2.1.4) (2020-12-03)
+
+
+### Bug Fixes
+
+* **hippy-react:** fix pullHeader and pullFooter ([#420](https://github.com/Tencent/Hippy/tree/master/packages/hippy-react/issues/420)) ([abfc574](https://github.com/Tencent/Hippy/tree/master/packages/hippy-react/commit/abfc57401951acca4fb3fea72456784efcd4e926))
+
+
+### Features
+
+* **hippy-vue,hippy-react:** added setNativeProps on element ([#430](https://github.com/Tencent/Hippy/tree/master/packages/hippy-react/issues/430)) ([d1f7e21](https://github.com/Tencent/Hippy/tree/master/packages/hippy-react/commit/d1f7e216b5fef46ace0cf50803ad2940b429a0d6))
+* **hippy-vue,hippy-react:** perf setNativeProps ([5cd1291](https://github.com/Tencent/Hippy/tree/master/packages/hippy-react/commit/5cd12910262ad3bb15d07c2dc974a829958a2b86))
+
+
+
+
+
+## [2.1.2](https://github.com/Tencent/Hippy/tree/master/packages/hippy-react/compare/2.1.1...2.1.2) (2020-11-23)
+
+
+### Features
+
+* **hippy-vue, hippy-react:** changeTryConvertNumberCompatibility ([714faaf](https://github.com/Tencent/Hippy/tree/master/packages/hippy-react/commit/714faaf11988659b450a3276342597b7ed095a17))
+
+
+
+
+
+## [2.1.1](https://github.com/Tencent/Hippy/tree/master/packages/hippy-react/compare/2.1.0...2.1.1) (2020-11-11)
+
+
+**Note:** Version bump only for package @hippy/react
+
+
+
 # [2.1.0](https://github.com/Tencent/Hippy/tree/master/packages/hippy-react/compare/2.0.3...2.1.0) (2020-10-29)
 
 

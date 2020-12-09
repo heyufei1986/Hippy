@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.4](https://github.com/Tencent/Hippy/tree/master/packages/hippy-vue/compare/2.1.3...2.1.4) (2020-12-03)
+
+
+### Features
+
+* **hippy-vue,hippy-react:** added setNativeProps on element ([#430](https://github.com/Tencent/Hippy/tree/master/packages/hippy-vue/issues/430)) ([d1f7e21](https://github.com/Tencent/Hippy/tree/master/packages/hippy-vue/commit/d1f7e216b5fef46ace0cf50803ad2940b429a0d6))
+* **hippy-vue,hippy-react:** perf setNativeProps ([5cd1291](https://github.com/Tencent/Hippy/tree/master/packages/hippy-vue/commit/5cd12910262ad3bb15d07c2dc974a829958a2b86))
+
+
+
+
+
+## [2.1.2](https://github.com/Tencent/Hippy/tree/master/packages/hippy-vue/compare/2.1.1...2.1.2) (2020-11-23)
+
+
+### Features
+
+* **hippy-vue:** added iOS12 statusBarHeight ([d33e993](https://github.com/Tencent/Hippy/tree/master/packages/hippy-vue/commit/d33e993b72b3627e3fd73e5f5e08d8c34d4ee23d))
+* **hippy-vue, hippy-react:** changeTryConvertNumberCompatibility ([714faaf](https://github.com/Tencent/Hippy/tree/master/packages/hippy-vue/commit/714faaf11988659b450a3276342597b7ed095a17))
+
+
+
+
+
+## [2.1.1](https://github.com/Tencent/Hippy/tree/master/packages/hippy-vue/compare/2.1.0...2.1.1) (2020-11-11)
+
+
+### Bug Fixes
+
+* **hippy-vue:** fixed focus event support for div ([#387](https://github.com/Tencent/Hippy/tree/master/packages/hippy-vue/issues/387)) ([21d8b58](https://github.com/Tencent/Hippy/tree/master/packages/hippy-vue/commit/21d8b58946f546bc2313c163818f525b0da8ef9a))
+* **hippy-vue:** fixed tryConvertNumber bug & some compatible issue ([ba8836d](https://github.com/Tencent/Hippy/tree/master/packages/hippy-vue/commit/ba8836d9b3c3461f013d325c0e86c84233e3ede6))
+
+
+
+
+
 # [2.1.0](https://github.com/Tencent/Hippy/tree/master/packages/hippy-vue/compare/2.0.3...2.1.0) (2020-10-29)
 
 
