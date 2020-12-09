@@ -309,6 +309,23 @@ public class RenderManager
 
 	}
 
+
+  public void measureInAncestor(int id, int ancestorId, Promise promise)
+  {
+    RenderNode renderNode = mNodes.get(id);
+    if (renderNode == null)
+    {
+      promise.reject("this view is null");
+    }
+    else
+    {
+      renderNode.measureInAncestor(ancestorId, promise);
+
+      addNullUINodeIfNeeded(renderNode);
+    }
+  }
+
+
 	public void createPreView(HippyRootView hippyRootView, int id, int pid, int mIndex, String className, HippyMap newProps)
 	{
 

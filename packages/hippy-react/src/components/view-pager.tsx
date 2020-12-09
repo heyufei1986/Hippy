@@ -1,11 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 
-import React, { ReactElement, ReactNode } from 'react';
-import { callUIFunction } from '../modules/ui-manager-module';
+import React, {ReactElement, ReactNode} from 'react';
+import {callUIFunction} from '../modules/ui-manager-module';
+import {Style} from "@localTypes/hippy";
 
 interface PageSelectedEvent {
   position: number;
 }
+
 interface PageScrollEvent {
   position: number;
   offset: number;
@@ -62,6 +64,8 @@ interface ViewPagerProps {
    * * settling
    */
   onPageScrollStateChanged?(evt: PageScrollState): void;
+
+  style?: Style | Style[]
 }
 
 function ViewPagerItem(props: any) {
@@ -101,7 +105,7 @@ class ViewPager extends React.Component<ViewPagerProps, {}> {
   }
 
   private onPageScrollStateChanged(params: PageScrollStateEvent) {
-    const { onPageScrollStateChanged } = this.props;
+    const {onPageScrollStateChanged} = this.props;
     if (onPageScrollStateChanged) {
       onPageScrollStateChanged(params.pageScrollState);
     }
@@ -125,7 +129,7 @@ class ViewPager extends React.Component<ViewPagerProps, {}> {
    * @ignore
    */
   public render() {
-    const { children, onPageScrollStateChanged, ...nativeProps } = this.props;
+    const {children, onPageScrollStateChanged, ...nativeProps} = this.props;
     let mappedChildren: ReactElement[] = [];
     if (Array.isArray(children)) {
       mappedChildren = children.map((child: ReactNode) => {
@@ -138,7 +142,7 @@ class ViewPager extends React.Component<ViewPagerProps, {}> {
     } else {
       mappedChildren.push((
         <ViewPagerItem>
-          { children }
+          {children}
         </ViewPagerItem>
       ));
     }
@@ -150,7 +154,9 @@ class ViewPager extends React.Component<ViewPagerProps, {}> {
     return (
       <div
         nativeName="ViewPager"
-        ref={(ref) => { this.instance = ref; }}
+        ref={(ref) => {
+          this.instance = ref;
+        }}
         {...nativeProps}
       >
         {mappedChildren}

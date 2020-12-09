@@ -94,6 +94,15 @@ public class RecyclerView extends RecyclerViewBase implements RecyclerViewBase.O
 	}
 
 	@Override
+	public int getHeightAfter(int pos) {
+		if (mRecyclerViewAdapter != null)
+		{
+			return mRecyclerViewAdapter.getHeightAfter(pos);
+		}
+		return 0;
+	}
+
+	@Override
 	protected boolean canTranversal(int purpose, ViewHolder holder)
 	{
 		return super.canTranversal(purpose, holder);
@@ -303,7 +312,14 @@ public class RecyclerView extends RecyclerViewBase implements RecyclerViewBase.O
 	public void checkNotifyFooterAppearWithFewChild(int endOffset)
 	{
 		Adapter adapter = getAdapter();
-		if (adapter != null && (mOffsetY + getHeight() >= adapter.getListTotalHeight() - adapter.getDefaultFooterHeight()))
+
+		boolean isReverse = mLayout.isReverse();
+
+
+
+		if (adapter != null &&
+				((!isReverse && (mOffsetY + getHeight() >= adapter.getListTotalHeight() - adapter.getDefaultFooterHeight())) ||
+						(isReverse && ( -mOffsetY + getHeight() >= adapter.getListTotalHeight() - adapter.getDefaultFooterHeight()))))
 		{
 			View view = getLayoutManager().getChildClosestToEndInScreen();
 			if (view != null && view instanceof IRecyclerViewFooter)

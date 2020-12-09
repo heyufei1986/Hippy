@@ -9,7 +9,7 @@ import { warn } from '../utils';
 
 type DataItem = any;
 
-interface ListViewProps {
+export interface ListViewProps {
   /**
    * Render specific number of rows of data.
    * Set equal to dataShource.length in most case.
@@ -415,3 +415,5 @@ class ListView extends React.Component<ListViewProps, ListViewState> {
 }
 
 export default ListView;
+
+export {ListItemViewProps}

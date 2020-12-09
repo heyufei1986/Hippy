@@ -687,6 +687,11 @@ public abstract class HippyEngineManagerImpl extends HippyEngineManager implemen
 		restartEngineInBackground();
 	}
 
+  @Override
+  public void onExitDebugMode() {
+
+  }
+
 	@Override
 	public void onInitDevError(Throwable e)
 	{

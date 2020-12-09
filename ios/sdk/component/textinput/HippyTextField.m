@@ -71,7 +71,7 @@
   if (_responderDelegate && [_responderDelegate respondsToSelector: @selector(textview_becomeFirstResponder)]) {
     [_responderDelegate textview_becomeFirstResponder];
   }
-  
+
   return [super becomeFirstResponder];
 }
 
@@ -158,6 +158,7 @@
     [_textView addTarget:self action:@selector(textFieldBeginEditing) forControlEvents:UIControlEventEditingDidBegin];
     [_textView addTarget:self action:@selector(textFieldSubmitEditing) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self addSubview:_textView];
+    
   }
   return self;
 }
@@ -478,11 +479,11 @@ HIPPY_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
         }
         _onKeyPress(@{@"key":resultKey});
     }
-    NSString *toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    if (textField.isSecureTextEntry) {
-        textField.text = toBeString;
-        return NO;
-    }
+//    NSString *toBeString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+//    if (textField.isSecureTextEntry) {
+//        textField.text = 80;
+//        return NO;
+//    }
     return YES;
 }
 

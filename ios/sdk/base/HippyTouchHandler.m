@@ -300,8 +300,13 @@ typedef void(^ViewBlock)(UIView* view, BOOL* stop);
     if (dis < 1.f) {
         return;
     }
-    [self clearTimer];
-    _onClickView = nil;
+    
+    
+    //abcyun:解决移动就取消点击事件，容易误操作，不好点,只有移动距离大于指定值时才取消
+    if (dis > 20) {
+        [self clearTimer];
+        _onClickView = nil;
+    }
     
     for (UITouch *touch in touches) {
         

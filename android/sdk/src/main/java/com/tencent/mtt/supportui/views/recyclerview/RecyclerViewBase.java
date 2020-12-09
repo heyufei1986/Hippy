@@ -981,130 +981,254 @@ public abstract class RecyclerViewBase extends ViewGroup
 		}
 		if (dy != 0) // 竖直方向滑动
 		{
-			if (mOffsetY + dy <= 0)
-			{
-				if (!upOverScrollEnabled)
-				{
-					int unConsumedY = dy + mOffsetY;
-					dy = -mOffsetY;
-					if (scroller != null && scroller.isFling())
-					{
-						onFlingToTopEdge(scroller.getCurrVelocity(), unConsumedY);
-					}
-					else if (mIsTouching)
-					{
-						onScrollToTopEdge();
-					}
-					if (scroller != null)
-					{
-						scroller.forceFinished(true);
-					}
-				}
-				else
-				{
-					if (mOffsetY < 0)
-					{
-						dy = dy > 0 ? dy : (dy / 3 == 0 || !isTouch ? dy : dy / 3);
-					}
+      if(mLayout.isReverse())
+      {
+        if(mOffsetY + dy >= 0)
+        {
+          if (!upOverScrollEnabled)
+          {
+            int unConsumedY = dy + mOffsetY;
+            dy = -mOffsetY;
+            if (scroller != null && scroller.isFling())
+            {
+              onFlingToTopEdge(scroller.getCurrVelocity(), unConsumedY);
+            }
+            else if (mIsTouching)
+            {
+              onScrollToTopEdge();
+            }
+            if (scroller != null)
+            {
+              scroller.forceFinished(true);
+            }
+          }
+          else
+          {
+            if (mOffsetY > 0)
+            {
+              dy = dy < 0 ? dy : (dy / 3 == 0 || !isTouch ? dy : dy / 3);
+            }
 
-					if (mOffsetY + dy <= -springbackDis && careSpringBackMaxDistance)
-					{
-						dy = -mOffsetY - springbackDis;
-						if (scroller != null)
-						{
-							scroller.forceFinished(true);
-						}
-					}
-				}
-			}
-			else if (mOffsetY + dy > mState.mTotalHeight - getHeight())
-			{
-				if (!downOverScrollEnabled) // 不能向下overScroll
-				{
-					//					if (getAdapter() instanceof RecyclerAdapter && ((RecyclerAdapter) getAdapter()).isAutoCalculateItemHeight()
-					//							&& !((RecyclerAdapter) getAdapter()).mAutoCalcItemHeightFinish)
-					//					{
-					//						// 在总长度还没计算出来时，不修改dy
-					//						//						Log.e("leo", "no mTotalHeight pass " + mState.mTotalHeight);
-					//					}
-					//					else
-					{
-						if (mState.mTotalHeight <= getHeight())
-						{
-							//							Log.e("leo", "mState.mTotalHeight <= getHeight() => 0, " + mState.mTotalHeight + ", " + getHeight());
-							dy = 0;
-						}
-						else
-						{
-							//							Log.e("leo", "dy = mState.mTotalHeight - getHeight() - mOffsetY " +
-							//									mState.mTotalHeight + ", " + getHeight() + ", " + mOffsetY);
-							dy = mState.mTotalHeight - getHeight() - mOffsetY;
-						}
-						if (scroller != null)
-						{
-							//							Log.e("leo", "scroller.forceFinished(true);");
-							scroller.forceFinished(true);
-						}
-					}
-				}
-				else
-				{// 可以向下overScroll
-					if (DEBUG)
-					{
-						//						Log.d("leo", "computedxdy overscroll!!" + "mOffsetY=" + mOffsetY + ",listTotal=" + mState.mTotalHeight);
-					}
-					//					if (getAdapter() instanceof RecyclerAdapter && ((RecyclerAdapter) getAdapter()).isAutoCalculateItemHeight()
-					//							&& !((RecyclerAdapter) getAdapter()).mAutoCalcItemHeightFinish)
-					//					{
-					//						// 在总长度还没计算出来时，不修改dy
-					//						//						Log.e("leo", "no mTotalHeight pass " + mState.mTotalHeight);
-					//					}
-					//					else
-					{
-						if (mOffsetY > mState.mTotalHeight - getHeight())
-						{
-							dy = dy < 0 ? dy : (dy / 3 == 0 || !isTouch ? dy : dy / 3);
-						}
-						int distance = 0;
-						if (mState.mTotalHeight <= getHeight())
-						{
-							distance = 0;
-						}
-						else
-						{
-							distance = mState.mTotalHeight - getHeight();
-						}
-						if (mOffsetY + dy >= distance + springbackDis && careSpringBackMaxDistance)
-						{
-							// Log.d("leo", "overscroll!!!!!!!!!!" + "mOffsetY=" +
-							// mOffsetY + ",listTotal=" +
-							// mAdapter.getListTotalHeight());
-							if (DEBUG)
-							{
-								//								Log.d("leo", "scroll to barrier!!mOffsetY=" + mOffsetY);
-							}
-							dy = -mOffsetY + distance + springbackDis;
-							if (scroller != null)
-							{
-								scroller.forceFinished(true);
-							}
-							// }
-						}
-					}
-				}
-			}
-			else if (mStopAtTitle && mNeedStopAtTitleIndex != -1)
-			{
-				int distance = getStopPosition();
-				if (mOffsetY + dy < distance)
-				{
-					dy = distance - mOffsetY;
-					if (scroller != null)
-					{
-						scroller.forceFinished(true);
-					}
-				}
-			}
+            if (mOffsetY + dy >= springbackDis && careSpringBackMaxDistance)
+            {
+              dy = mOffsetY + springbackDis;
+              if (scroller != null)
+              {
+                scroller.forceFinished(true);
+              }
+            }
+          }
+        }
+        else if(-mOffsetY - dy > mState.mTotalHeight - getHeight())
+        {
+          if (!downOverScrollEnabled) // 不能向下overScroll
+          {
+            //					if (getAdapter() instanceof RecyclerAdapter && ((RecyclerAdapter) getAdapter()).isAutoCalculateItemHeight()
+            //							&& !((RecyclerAdapter) getAdapter()).mAutoCalcItemHeightFinish)
+            //					{
+            //						// 在总长度还没计算出来时，不修改dy
+            //						//						Log.e("leo", "no mTotalHeight pass " + mState.mTotalHeight);
+            //					}
+            //					else
+            {
+              if (mState.mTotalHeight <= getHeight())
+              {
+                //							Log.e("leo", "mState.mTotalHeight <= getHeight() => 0, " + mState.mTotalHeight + ", " + getHeight());
+                dy = 0;
+              }
+              else
+              {
+                //							Log.e("leo", "dy = mState.mTotalHeight - getHeight() - mOffsetY " +
+                //									mState.mTotalHeight + ", " + getHeight() + ", " + mOffsetY);
+                dy = mState.mTotalHeight - getHeight() - mOffsetY;
+              }
+              if (scroller != null)
+              {
+                //							Log.e("leo", "scroller.forceFinished(true);");
+                scroller.forceFinished(true);
+              }
+            }
+          }
+          else
+          {// 可以向下overScroll
+            if (DEBUG)
+            {
+              //						Log.d("leo", "computedxdy overscroll!!" + "mOffsetY=" + mOffsetY + ",listTotal=" + mState.mTotalHeight);
+            }
+
+            {
+              if (-mOffsetY > mState.mTotalHeight - getHeight())
+              {
+                dy = dy > 0 ? dy : (dy / 3 == 0 || !isTouch ? dy : dy / 3);
+              }
+              int distance = 0;
+              if (mState.mTotalHeight <= getHeight())
+              {
+                distance = 0;
+              }
+              else
+              {
+                distance = mState.mTotalHeight - getHeight();
+              }
+              if (-mOffsetY - dy >= distance + springbackDis && careSpringBackMaxDistance)
+              {
+                // Log.d("leo", "overscroll!!!!!!!!!!" + "mOffsetY=" +
+                // mOffsetY + ",listTotal=" +
+                // mAdapter.getListTotalHeight());
+                if (DEBUG)
+                {
+                  //								Log.d("leo", "scroll to barrier!!mOffsetY=" + mOffsetY);
+                }
+                dy = -mOffsetY - distance - springbackDis;
+                if (scroller != null)
+                {
+                  scroller.forceFinished(true);
+                }
+                // }
+              }
+            }
+          }
+        }
+        else if (mStopAtTitle && mNeedStopAtTitleIndex != -1)
+        {
+          int distance = getStopPosition();
+          if (mOffsetY + dy < distance)
+          {
+            dy = distance - mOffsetY;
+            if (scroller != null)
+            {
+              scroller.forceFinished(true);
+            }
+          }
+        }
+      }
+      else
+      {
+        if (mOffsetY + dy <= 0)
+        {
+          if (!upOverScrollEnabled)
+          {
+            int unConsumedY = dy + mOffsetY;
+            dy = -mOffsetY;
+            if (scroller != null && scroller.isFling())
+            {
+              onFlingToTopEdge(scroller.getCurrVelocity(), unConsumedY);
+            }
+            else if (mIsTouching)
+            {
+              onScrollToTopEdge();
+            }
+            if (scroller != null)
+            {
+              scroller.forceFinished(true);
+            }
+          }
+          else
+          {
+            if (mOffsetY < 0)
+            {
+              dy = dy > 0 ? dy : (dy / 3 == 0 || !isTouch ? dy : dy / 3);
+            }
+
+            if (mOffsetY + dy <= -springbackDis && careSpringBackMaxDistance)
+            {
+              dy = -mOffsetY - springbackDis;
+              if (scroller != null)
+              {
+                scroller.forceFinished(true);
+              }
+            }
+          }
+        }
+        else if (mOffsetY + dy > mState.mTotalHeight - getHeight())
+        {
+          if (!downOverScrollEnabled) // 不能向下overScroll
+          {
+            //					if (getAdapter() instanceof RecyclerAdapter && ((RecyclerAdapter) getAdapter()).isAutoCalculateItemHeight()
+            //							&& !((RecyclerAdapter) getAdapter()).mAutoCalcItemHeightFinish)
+            //					{
+            //						// 在总长度还没计算出来时，不修改dy
+            //						//						Log.e("leo", "no mTotalHeight pass " + mState.mTotalHeight);
+            //					}
+            //					else
+            {
+              if (mState.mTotalHeight <= getHeight())
+              {
+                //							Log.e("leo", "mState.mTotalHeight <= getHeight() => 0, " + mState.mTotalHeight + ", " + getHeight());
+                dy = 0;
+              }
+              else
+              {
+                //							Log.e("leo", "dy = mState.mTotalHeight - getHeight() - mOffsetY " +
+                //									mState.mTotalHeight + ", " + getHeight() + ", " + mOffsetY);
+                dy = mState.mTotalHeight - getHeight() - mOffsetY;
+              }
+              if (scroller != null)
+              {
+                //							Log.e("leo", "scroller.forceFinished(true);");
+                scroller.forceFinished(true);
+              }
+            }
+          }
+          else
+          {// 可以向下overScroll
+            if (DEBUG)
+            {
+              //						Log.d("leo", "computedxdy overscroll!!" + "mOffsetY=" + mOffsetY + ",listTotal=" + mState.mTotalHeight);
+            }
+            //					if (getAdapter() instanceof RecyclerAdapter && ((RecyclerAdapter) getAdapter()).isAutoCalculateItemHeight()
+            //							&& !((RecyclerAdapter) getAdapter()).mAutoCalcItemHeightFinish)
+            //					{
+            //						// 在总长度还没计算出来时，不修改dy
+            //						//						Log.e("leo", "no mTotalHeight pass " + mState.mTotalHeight);
+            //					}
+            //					else
+            {
+              if (mOffsetY > mState.mTotalHeight - getHeight())
+              {
+                dy = dy < 0 ? dy : (dy / 3 == 0 || !isTouch ? dy : dy / 3);
+              }
+              int distance = 0;
+              if (mState.mTotalHeight <= getHeight())
+              {
+                distance = 0;
+              }
+              else
+              {
+                distance = mState.mTotalHeight - getHeight();
+              }
+              if (mOffsetY + dy >= distance + springbackDis && careSpringBackMaxDistance)
+              {
+                // Log.d("leo", "overscroll!!!!!!!!!!" + "mOffsetY=" +
+                // mOffsetY + ",listTotal=" +
+                // mAdapter.getListTotalHeight());
+                if (DEBUG)
+                {
+                  //								Log.d("leo", "scroll to barrier!!mOffsetY=" + mOffsetY);
+                }
+                dy = -mOffsetY + distance + springbackDis;
+                if (scroller != null)
+                {
+                  scroller.forceFinished(true);
+                }
+                // }
+              }
+            }
+          }
+        }
+        else if (mStopAtTitle && mNeedStopAtTitleIndex != -1)
+        {
+          int distance = getStopPosition();
+          if (mOffsetY + dy < distance)
+          {
+            dy = distance - mOffsetY;
+            if (scroller != null)
+            {
+              scroller.forceFinished(true);
+            }
+          }
+        }
+      }
 
 		}
 		result[0] = dx;
@@ -1309,6 +1433,8 @@ public abstract class RecyclerViewBase extends ViewGroup
 
 	public void smoothScrollBy(int dx, int dy, boolean careSpringBackMaxDistance, boolean forceScroll)
 	{
+    Log.d(TAG, "smoothScrollBy() called with: dx = [" + dx + "], dy = [" + dy + "], careSpringBackMaxDistance = [" + careSpringBackMaxDistance + "], forceScroll = [" + forceScroll + "]");
+    Log.d(TAG, "smoothScrollBy:  statck = " + Log.getStackTraceString(new Exception("")));
 		if (dx != 0 || dy != 0)
 		{
 			if (!mState.mStructureChanged || forceScroll)
@@ -1335,6 +1461,7 @@ public abstract class RecyclerViewBase extends ViewGroup
 	 */
 	public boolean fling(int velocityX, int velocityY)
 	{
+    Log.d(TAG, "fling() called with: velocityX = [" + velocityX + "], velocityY = [" + velocityY + "]");
 		if (Math.abs(velocityX) < mMinFlingVelocity)
 		{
 			velocityX = 0;
@@ -1360,6 +1487,7 @@ public abstract class RecyclerViewBase extends ViewGroup
 	 */
 	public void stopScroll()
 	{
+    Log.d(TAG, "stopScroll() called");
 		mViewFlinger.stop();
 		mLayout.stopSmoothScroller();
 	}
@@ -1399,17 +1527,26 @@ public abstract class RecyclerViewBase extends ViewGroup
   protected void releaseGlowsForVertical()
   {
     final int totalHeight = mState.mTotalHeight;
-    if (mOffsetY < mState.mCustomHeaderHeight || getHeight() > totalHeight)
+    boolean isReverse = mLayout.isReverse();
+    if ( isReverse && mOffsetY > 0 ||
+      (!isReverse && (mOffsetY < mState.mCustomHeaderHeight || getHeight() > totalHeight)))
     {
       scrollToTop(null);
     }
-    else if (mOffsetY > totalHeight - getHeight())
+    else if ((isReverse && -mOffsetY > totalHeight - getHeight()) || (!isReverse && mOffsetY > totalHeight - getHeight()))
     {
-      smoothScrollBy(0, totalHeight - getHeight() - mOffsetY);
+      if(isReverse)
+      {
+        smoothScrollBy(0, -mOffsetY - (totalHeight - getHeight()));
+      }
+      else
+      {
+        smoothScrollBy(0, totalHeight - getHeight() - mOffsetY);
+      }
     }
-    else if (mOffsetY >= totalHeight - getHeight() && needNotifyFooter)
+    else if((isReverse &&  -mOffsetY >= totalHeight - getHeight() && needNotifyFooter) || ( !isReverse &&  mOffsetY >= totalHeight - getHeight() && needNotifyFooter))
     {
-      if (this.shouldPrebindItem() && mOffsetY + getHeight() != totalHeight)
+      if (this.shouldPrebindItem() && (( !isReverse && mOffsetY + getHeight() != totalHeight) || (isReverse && -mOffsetY + getHeight() != totalHeight )))
       {
         return;
       }
@@ -1422,7 +1559,7 @@ public abstract class RecyclerViewBase extends ViewGroup
 
 	protected void releaseGlows(boolean canGoRefresh, boolean fromTouch)
 	{
-		if (mState.mCustomHeaderHeight != 0 || mState.mCustomFooterHeight != 0 || mOffsetY < 0 || getHeight() > mState.mTotalHeight)
+		if (mLayout.needScrollToBase(mOffsetY) || mState.mCustomHeaderHeight != 0 || mState.mCustomFooterHeight != 0 || getHeight() > mState.mTotalHeight)
 		{
 			if (shouldStopReleaseGlows(canGoRefresh, fromTouch))
 			{
@@ -1435,8 +1572,8 @@ public abstract class RecyclerViewBase extends ViewGroup
 			releaseGlowsForHorizontal();
 		}
 		else
-        {
-        	releaseGlowsForVertical();
+    {
+      releaseGlowsForVertical();
 		}
 	}
 
@@ -1897,7 +2034,7 @@ public abstract class RecyclerViewBase extends ViewGroup
 					scrollByInternal(canScrollHorizontally ? -dx : 0, canScrollVertically ? -dy : 0);
 					if (needNotifyFooter && !checkNotifyFooterOnRelease)
 					{
-						if (!this.shouldPrebindItem() || mOffsetY + getHeight() >= getTotalHeight())
+            if (!this.shouldPrebindItem() || (mLayout.isReverse() && -mOffsetY + getHeight() >= getTotalHeight()) || (!mLayout.isReverse() && mOffsetY + getHeight() >= getTotalHeight()))
 						{
 							needNotifyFooter = false;
 							if (mRecycler != null)
@@ -3248,31 +3385,63 @@ public abstract class RecyclerViewBase extends ViewGroup
 			removeAnimatingViews();
 			mState.mDataChanged = true;
 			mState.mStructureChanged = true;
-			View first = mLayout.getChildClosestToStartByOrder();
-			if (first != null)
-			{
-				int pendingPosition = mLayout.getPendingPosition();
-				int pendingOffset = mLayout.getPendingOffset();
-				//				Log.d(TAG, "pendingPosition=" + pendingPosition);
-				if (pendingPosition == NO_POSITION)
-				{
-					pendingPosition = mLayout.getPosition(first);
-					//					Log.d(TAG, "first position=" + pendingPosition);
-					if (pendingOffset == BaseLayoutManager.INVALID_OFFSET)
-					{
-						pendingOffset = mLayout.getDecoratedStart(first);
-						pendingOffset = mLayout.canScrollHorizontally() ?
-								pendingOffset + mState.mCustomHeaderWidth : pendingOffset + mState.mCustomHeaderHeight;
-					}
-				}
-				pendingPosition = validateAnchorItemPosition(pendingPosition);
-				//				Log.d(TAG, "first position=" + pendingPosition);
-				scrollToPositionWithOffset(pendingPosition, pendingOffset);
-			}
-			else
-			{
-				requestLayout();
-			}
+
+      if(mLayout.isReverse())
+      {
+        View end = mLayout.getChildClosestToEndByOrder();
+        if(end != null)
+        {
+          int pendingPosition = mLayout.getPendingPosition();
+          int pendingOffset = mLayout.getPendingOffset();
+          //				Log.d(TAG, "pendingPosition=" + pendingPosition);
+          if (pendingPosition == NO_POSITION)
+          {
+            pendingPosition = mLayout.getPosition(end);
+            //					Log.d(TAG, "first position=" + pendingPosition);
+            if (pendingOffset == BaseLayoutManager.INVALID_OFFSET)
+            {
+
+              pendingOffset = getMeasuredHeight() - mLayout.getDecoratedEnd(end);
+            }
+
+          }
+          pendingPosition = validateAnchorItemPosition(pendingPosition);
+          //				Log.d(TAG, "first position=" + pendingPosition);
+          scrollToPositionWithOffset(pendingPosition, pendingOffset);
+        }
+        else
+        {
+          requestLayout();
+        }
+      }
+      else
+      {
+        View first = mLayout.getChildClosestToStartByOrder();
+        if (first != null)
+        {
+          int pendingPosition = mLayout.getPendingPosition();
+          int pendingOffset = mLayout.getPendingOffset();
+          //				Log.d(TAG, "pendingPosition=" + pendingPosition);
+          if (pendingPosition == NO_POSITION)
+          {
+            pendingPosition = mLayout.getPosition(first);
+            //					Log.d(TAG, "first position=" + pendingPosition);
+            if (pendingOffset == BaseLayoutManager.INVALID_OFFSET)
+            {
+              pendingOffset = mLayout.getDecoratedStart(first);
+              pendingOffset = mLayout.canScrollHorizontally() ?
+                pendingOffset + mState.mCustomHeaderWidth : pendingOffset + mState.mCustomHeaderHeight;
+            }
+          }
+          pendingPosition = validateAnchorItemPosition(pendingPosition);
+          //				Log.d(TAG, "first position=" + pendingPosition);
+          scrollToPositionWithOffset(pendingPosition, pendingOffset);
+        }
+        else
+        {
+          requestLayout();
+        }
+      }
 
 		}
 
@@ -4562,6 +4731,7 @@ public abstract class RecyclerViewBase extends ViewGroup
 
 		public abstract int getHeightBefore(int pos);
 
+    public abstract int getHeightAfter(int pos);
 
 		public void onPreload()
 		{
@@ -5375,6 +5545,10 @@ public abstract class RecyclerViewBase extends ViewGroup
 				//				Log.e(TAG, "You MUST implement scrollToPosition. It will soon become abstract");
 			}
 		}
+
+    public abstract boolean needScrollToBase(int offset);
+
+    public abstract boolean isReverse();
 
 		public int getPendingOffset()
 		{
@@ -8226,6 +8400,12 @@ public abstract class RecyclerViewBase extends ViewGroup
 		return 0;
 	}
 
+  public int getHeightAfter(int pos)
+  {
+    return 0;
+  }
+
+
 	protected boolean canTranversal(int purpose, ViewHolder holder)
 	{
 		return true;
@@ -8398,7 +8578,15 @@ public abstract class RecyclerViewBase extends ViewGroup
 		{
 			return mOffsetX > mState.mTotalHeight - getWidth() || mOffsetX < 0;
 		}
-		return mOffsetY > mState.mTotalHeight - getHeight() || mOffsetY < 0; //list纵向滑动
+
+    if(mLayout != null && mLayout.isReverse())
+    {
+      return mOffsetY > 0 || -mOffsetY > mState.mTotalHeight - getHeight();
+    }
+    else
+    {
+      return mOffsetY > mState.mTotalHeight - getHeight() || mOffsetY < 0; //list纵向滑动
+    }
 	}
 
 	public int validateAnchorItemPosition(int anchorItemPosition)

@@ -27,7 +27,7 @@
 #ifdef OS_ANDROID
 #include <android/log.h>
 #else
-#include <Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
 #include <stdio.h>
 #include <iostream>
 #endif  // OS_ANDROID

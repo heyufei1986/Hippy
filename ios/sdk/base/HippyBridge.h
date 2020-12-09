@@ -31,6 +31,10 @@
 #import "HippyCustomTouchHandlerProtocol.h"
 #import "HippyImageProviderProtocol.h"
 
+
+typedef BOOL(^ScreenEdgeGestureRecognizerEnable)(void) ;
+typedef BOOL(^HandleGestureBack)(void) ;
+
 @class JSValue;
 @class HippyBridge;
 @class HippyEventDispatcher;
@@ -250,6 +254,13 @@ HIPPY_EXTERN NSString *HippyBridgeModuleNameForClass(Class bridgeModuleClass);
  * just for debugger
  */
 - (void)bindKeys;
+
+
+///abcyun扩展
+//当前是否可以扣边返回
+@property (nonatomic, copy) ScreenEdgeGestureRecognizerEnable screenEdgeGestureRecognizerEnable;
+
+@property (nonatomic, copy) HandleGestureBack onGestureBack;
 
 
 @end

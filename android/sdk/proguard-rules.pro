@@ -191,3 +191,9 @@ public <fields>;
 protected <fields>;
 }
 
+-keep class com.tencent.mtt.hippy.dom.flex.*{*;}
+
+-keep class com.tencent.mtt.hippy.uimanager.ListItemRenderNode{*;}
+-keep class com.tencent.mtt.hippy.uimanager.ListItemRenderNode{*;}
+
+

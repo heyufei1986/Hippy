@@ -76,6 +76,19 @@ const PixelRatio = {
   },
 };
 
+
+import {getRootViewId, setRootContainer, getRootContainer} from './utils/node';
+import {trace, setSilent} from './utils';
+
+import renderer from './renderer';
+import Document from './dom/document-node';
+import Style from "@localTypes/style";
+import {ClickableProps, LayoutableProps, TouchableProps} from "./types";
+import {LayoutEvent, TouchEvent} from '@localTypes/event';
+
+import {ListViewProps} from  './components/list-view';
+
+
 export {
   colorParse,
   callNative,
@@ -125,6 +138,22 @@ export {
   WebSocket,
   PullHeader,
   PullFooter,
+
+  getRootViewId,
+  getRootContainer,
+  setRootContainer,
+  trace,
+  setSilent,
+  renderer,
+  Document,
+  Style,
+  ClickableProps,
+  LayoutableProps,
+  TouchableProps,
+  LayoutEvent,
+  TouchEvent,
+  ListViewProps,
+
 };
 
 export default HippyReact;

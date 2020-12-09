@@ -130,6 +130,7 @@
     
 }
 
+
 - (instancetype)init
 {
   if ((self = [super initWithFrame:CGRectZero])) {
@@ -157,8 +158,16 @@
                                                  object:_textView];
       
     [self addSubview:_scrollView];
+    
+      UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
+    [self addGestureRecognizer:tap];
   }
   return self;
+}
+
+- (void) onTap: (id)sender {
+    if (self.onClick == nil)
+        [self focus];
 }
 
 HIPPY_NOT_IMPLEMENTED(- (instancetype)initWithFrame:(CGRect)frame)

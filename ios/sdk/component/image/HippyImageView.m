@@ -63,12 +63,12 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
 	CGImageRef imageRef = inputImage.CGImage;
 	CGFloat imageScale = inputImage.scale;
 	UIImageOrientation imageOrientation = inputImage.imageOrientation;
-	
+
 	// Image must be nonzero size
 	if (CGImageGetWidth(imageRef) * CGImageGetHeight(imageRef) == 0) {
 		return inputImage;
 	}
-	
+
 	//convert to ARGB if it isn't
 	if (CGImageGetBitsPerPixel(imageRef) != 32 ||
 		CGImageGetBitsPerComponent(imageRef) != 8 ||
@@ -78,7 +78,7 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
 		imageRef = UIGraphicsGetImageFromCurrentImageContext().CGImage;
 		UIGraphicsEndImageContext();
 	}
-	
+
 	vImage_Buffer buffer1, buffer2;
 	buffer1.width = buffer2.width = CGImageGetWidth(imageRef);
 	buffer1.height = buffer2.height = CGImageGetHeight(imageRef);
@@ -86,36 +86,36 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
 	size_t bytes = buffer1.rowBytes * buffer1.height;
 	buffer1.data = malloc(bytes);
 	buffer2.data = malloc(bytes);
-	
+
 	// A description of how to compute the box kernel width from the Gaussian
 	// radius (aka standard deviation) appears in the SVG spec:
 	// http://www.w3.org/TR/SVG/filters.html#feGaussianBlurElement
 	uint32_t boxSize = floor((radius * imageScale * 3 * sqrt(2 * M_PI) / 4 + 0.5) / 2);
 	boxSize |= 1; // Ensure boxSize is odd
-	
+
 	//create temp buffer
 	void *tempBuffer = malloc((size_t)vImageBoxConvolve_ARGB8888(&buffer1, &buffer2, NULL, 0, 0, boxSize, boxSize,
 																 NULL, kvImageEdgeExtend + kvImageGetTempBufferSize));
-	
+
 	//copy image data
 	CFDataRef dataSource = CGDataProviderCopyData(CGImageGetDataProvider(imageRef));
 	memcpy(buffer1.data, CFDataGetBytePtr(dataSource), bytes);
 	CFRelease(dataSource);
-	
+
 	//perform blur
 	vImageBoxConvolve_ARGB8888(&buffer1, &buffer2, tempBuffer, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend);
 	vImageBoxConvolve_ARGB8888(&buffer2, &buffer1, tempBuffer, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend);
 	vImageBoxConvolve_ARGB8888(&buffer1, &buffer2, tempBuffer, 0, 0, boxSize, boxSize, NULL, kvImageEdgeExtend);
-	
+
 	//free buffers
 	free(buffer2.data);
 	free(tempBuffer);
-	
+
 	//create image context from buffer
 	CGContextRef ctx = CGBitmapContextCreate(buffer1.data, buffer1.width, buffer1.height,
 											 8, buffer1.rowBytes, CGImageGetColorSpace(imageRef),
 											 CGImageGetBitmapInfo(imageRef));
-	
+
 	//create image from context
 	imageRef = CGBitmapContextCreateImage(ctx);
 	UIImage *outputImage = [UIImage imageWithCGImage:imageRef scale:imageScale orientation:imageOrientation];
@@ -185,7 +185,7 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
 }
 
 - (void)appWillEnterForeground {
-    
+
 }
 
 - (void)clearImageIfDetached
@@ -251,7 +251,7 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
 {
 	if (_resizeMode != resizeMode) {
 		_resizeMode = resizeMode;
-		
+
 		if (_resizeMode == HippyResizeModeRepeat) {
 			self.contentMode = UIViewContentModeScaleToFill;
 		} else {
@@ -275,7 +275,7 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
     NSDictionary *source = [self.source firstObject];
     if (source) {
         NSString *desiredImageSource = source[@"uri"];
-  
+
         return ![desiredImageSource isEqualToString:self.imageSourceUri] &&
         ![desiredImageSource isEqualToString:self.pendingImageSourceUri];
     }
@@ -330,9 +330,9 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
             }
             return;
         }
-        
+
         __weak typeof(self) weakSelf = self;
-        
+
         typedef void (^HandleBase64CompletedBlock)(NSString *);
         HandleBase64CompletedBlock handleBase64CompletedBlock = ^void(NSString *base64Data) {
             NSRange range = [base64Data rangeOfString:@";base64,"];
@@ -360,7 +360,7 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
                 }
             }
         };
-        
+
         typedef void(^HandleImageCompletedBlock)(NSURL *);
         HandleImageCompletedBlock handleImageCompletedBlock = ^void(NSURL *source_url) {
             [weakSelf.bridge.imageLoader imageView:weakSelf loadAtUrl:source_url placeholderImage:weakSelf.defaultImage context: NULL progress:^(long long currentLength, long long totalLength) {
@@ -388,12 +388,12 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
                 }
             }];
         };
-        
+
         if(_bridge.imageLoader && source_url) {
             if (_defaultImage) {
                 weakSelf.image = _defaultImage;
             }
-            
+
             if ([[source_url absoluteString] hasPrefix: @"data:image/"]) {
                 handleBase64CompletedBlock([source_url absoluteString]);
             } else {
@@ -403,7 +403,7 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
                 _imageLoadURL = source_url;
                 handleImageCompletedBlock(source_url);
             }
-            
+
         } else {
             if ([uri hasPrefix: @"data:image/"]) {
                 handleBase64CompletedBlock(uri);
@@ -536,7 +536,7 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
 		}
 		return;
 	}
-	
+
 	__weak typeof(self) weakSelf = self;
 	void (^setImageBlock)(UIImage *) = ^(UIImage *image) {
         weakSelf.pendingImageSourceUri = nil;
@@ -547,17 +547,17 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
 			[weakSelf.layer removeAnimationForKey:@"contents"];
 			[weakSelf updateImage: image];
 		}
-		
+
 		if (weakSelf.onLoad)
 			weakSelf.onLoad(@{@"width": @(image.size.width),@"height": @(image.size.height), @"url":url ? :@""});
 		if (weakSelf.onLoadEnd)
 			weakSelf.onLoadEnd(nil);
 	};
-    
+
     if (_blurRadius > 100 && [NSProcessInfo processInfo].physicalMemory <= 1024 * 1024 * 1000) {
         _blurRadius = 100;
     }
-    
+
     CGFloat br = _blurRadius;
 	if (_blurRadius > __FLT_EPSILON__ && needBlur) {
 		// Blur on a background thread to avoid blocking interaction
@@ -587,18 +587,18 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
 		self.image = nil;
 		return;
 	}
-	
+
 	if (_renderingMode != image.renderingMode) {
 		image = [image imageWithRenderingMode:_renderingMode];
 	}
-	
+
 	if (_resizeMode == HippyResizeModeRepeat) {
 		image = [image resizableImageWithCapInsets: _capInsets resizingMode: UIImageResizingModeTile];
 	} else if (!UIEdgeInsetsEqualToEdgeInsets(UIEdgeInsetsZero, _capInsets)) {
 		// Applying capInsets of 0 will switch the "resizingMode" of the image to "tile" which is undesired
 		image = [image resizableImageWithCapInsets:_capInsets resizingMode:UIImageResizingModeStretch];
 	}
-	
+
 	// Apply trilinear filtering to smooth out mis-sized images
 //    self.layer.minificationFilter = kCAFilterTrilinear;
 //    self.layer.magnificationFilter = kCAFilterTrilinear;
@@ -617,7 +617,7 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
     }
     if ([self needsUpdateCornerRadius]) {
         CGRect contentRect = UIEdgeInsetsInsetRect(self.bounds, _capInsets);
-        
+
 #ifdef HippyLog
         CGFloat width = CGRectGetWidth(contentRect);
         CGFloat height = CGRectGetHeight(contentRect);
@@ -638,7 +638,7 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
             HippyLog(@"[warning] _borderBottomRightRadius must be shorter than width / 2");
         }
 #endif
-        
+
         CGFloat minX = CGRectGetMinX(contentRect);
         CGFloat minY = CGRectGetMinY(contentRect);
         CGFloat maxX = CGRectGetMaxX(contentRect);
@@ -651,27 +651,27 @@ UIImage *HippyBlurredImageWithRadiusv(UIImage *inputImage, CGFloat radius)
         [bezierPath addLineToPoint:p2];
         CGPoint p3 = CGPointMake(maxX - boderRadiusStruct.topRightRadius, minY + boderRadiusStruct.topRightRadius);
         [bezierPath addArcWithCenter:p3 radius:boderRadiusStruct.topRightRadius startAngle:M_PI_2 + M_PI endAngle:0 clockwise:YES];
-        
+
         CGPoint p4 = CGPointMake(maxX, maxY - boderRadiusStruct.bottomRightRadius);
         [bezierPath addLineToPoint:p4];
         CGPoint p5 = CGPointMake(maxX - boderRadiusStruct.bottomRightRadius, maxY - boderRadiusStruct.bottomRightRadius);
         [bezierPath addArcWithCenter:p5 radius:boderRadiusStruct.bottomRightRadius startAngle:0 endAngle:M_PI_2 clockwise:YES];
-        
+
         CGPoint p6 = CGPointMake(minX + boderRadiusStruct.bottomLeftRadius, maxY);
         [bezierPath addLineToPoint:p6];
         CGPoint p7 = CGPointMake(minX + boderRadiusStruct.bottomLeftRadius, maxY - boderRadiusStruct.bottomLeftRadius);
         [bezierPath addArcWithCenter:p7 radius:boderRadiusStruct.bottomLeftRadius startAngle:M_PI_2 endAngle:M_PI clockwise:YES];
-        
+
         CGPoint p8 = CGPointMake(minX, minY + boderRadiusStruct.topLeftRadius);
         [bezierPath addLineToPoint:p8];
         CGPoint p9 = CGPointMake(minX + boderRadiusStruct.topLeftRadius, minY + boderRadiusStruct.topLeftRadius);
         [bezierPath addArcWithCenter:p9 radius:boderRadiusStruct.topLeftRadius startAngle:M_PI endAngle:M_PI + M_PI_2 clockwise:YES];
         [bezierPath closePath];
-        
+
         CAShapeLayer *mask = [CAShapeLayer layer];
         mask.path = bezierPath.CGPath;
         self.layer.mask = mask;
-        
+
         CAShapeLayer *borderLayer = [CAShapeLayer layer];
         borderLayer.path = bezierPath.CGPath;
         borderLayer.fillColor = [UIColor clearColor].CGColor;

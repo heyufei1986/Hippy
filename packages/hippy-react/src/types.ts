@@ -1,6 +1,6 @@
 import React from 'react';
 import Style from '@localTypes/style';
-import { LayoutEvent } from '@localTypes/event';
+import {LayoutEvent} from '@localTypes/event';
 
 declare module 'react' {
   interface HTMLAttributes<T> extends React.AriaAttributes, React.DOMAttributes<T> {
@@ -59,7 +59,7 @@ export interface TouchableProps {
    * @param {number} evt.page_x - Touch coordinate X
    * @param {number} evt.page_y = Touch coordinate Y
    */
-  onTouchDown?(evt: TouchEvent): void;
+  onTouchDown?(evt: TouchEvent): boolean | undefined | void;
 
   /**
    * The touchmove event occurs when the user moves the finger across the screen.
@@ -69,7 +69,7 @@ export interface TouchableProps {
    * @param {number} evt.page_x - Touch coordinate X
    * @param {number} evt.page_y = Touch coordinate Y
    */
-  onTouchMove?(evt: TouchEvent): void;
+  onTouchMove?(evt: TouchEvent): boolean | undefined | void;
 
   /**
    * The touchend event occurs when the user removes the finger from an component.
@@ -78,7 +78,7 @@ export interface TouchableProps {
    * @param {number} evt.page_x - Touch coordinate X
    * @param {number} evt.page_y = Touch coordinate Y
    */
-  onTouchEnd?(evt: TouchEvent): void;
+  onTouchEnd?(evt: TouchEvent): boolean | undefined | void;
 
   /**
    * The touchcancel event occurs when the touch event gets interrupted.
@@ -87,5 +87,5 @@ export interface TouchableProps {
    * @param {number} evt.page_x - Touch coordinate X
    * @param {number} evt.page_y = Touch coordinate Y
    */
-  onTouchCancel?(evt: TouchEvent): void;
+  onTouchCancel?(evt: TouchEvent): boolean | undefined | void;
 }

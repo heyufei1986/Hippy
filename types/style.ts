@@ -2,15 +2,15 @@
 
 interface Transform {
   perspective?: number;
-  rotate?: string;
-  rotateX?: string;
-  rotateY?: string;
-  rotateZ?: string;
-  scale?: number;
-  scaleX?: number;
-  scaleY?: number;
-  translateX?: number;
-  translateY?: number;
+  rotate?: string | Animation;
+  rotateX?: string | Animation;
+  rotateY?: string | Animation;
+  rotateZ?: string | Animation;
+  scale?: number | Animation;
+  scaleX?: number | Animation;
+  scaleY?: number | Animation;
+  translateX?: number | Animation;
+  translateY?: number | Animation;
   skewX?: string;
   skewY?: string;
 }
@@ -23,8 +23,8 @@ interface BaseStyle {
   backgroundImage?: string;
   backgroundSize?: string;
   backgroundPosition?: string;
-  width?: number;
-  height?: number;
+  width?: number | Animation;
+  height?: number | Animation;
   top?: number;
   left?: number;
   right?: number;
@@ -65,16 +65,32 @@ interface BaseStyle {
   flexBasis?: true;
   zIndex?: number;
   shadowColor?: string;
-  shadowOffset?: string;
+  shadowOffset?: string | { width: number, height: number };
   shadowOpacity?: number;
-  shadowRadius?: string;
+  shadowRadius?: string | number;
   tintColor?: string | number;
   tintColors?: string[] | number[] | null;
   underlineColorAndroid?: string;
   transform?: Transform[];
+
+  // abcyun-clinic-app
+  borderRadius?: number,
+  fontWeight?: string,
+  fontSize?: number,
+  fontFamily?: string,
+  lineHeight?: number,
+  textAlign?: 'left' | 'center' | 'right',
+  letterSpacing?: number,
+  borderBottomColor?: string | number,
+  borderColor?: string |number,
+  borderTopColor?:string | number,
+  borderLeftColor?:string | number,
+  borderRightColor?:string | number,
+  borderStyle?: 'solid' | 'dotted' | 'dashed'
 }
 
-interface Style extends BaseStyle {}
+interface Style extends BaseStyle {
+}
 
 export default Style;
 export {

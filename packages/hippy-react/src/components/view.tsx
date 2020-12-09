@@ -2,9 +2,9 @@
 
 import React from 'react';
 import Style from '@localTypes/style';
-import { FocusEvent } from '@localTypes/event';
-import { Fiber } from 'react-reconciler';
-import { LayoutableProps, ClickableProps, TouchableProps } from '../types';
+import {FocusEvent} from '@localTypes/event';
+import {Fiber} from 'react-reconciler';
+import {LayoutableProps, ClickableProps, TouchableProps} from '../types';
 
 interface ViewProps extends LayoutableProps, ClickableProps, TouchableProps {
   /**
@@ -40,7 +40,7 @@ interface ViewProps extends LayoutableProps, ClickableProps, TouchableProps {
   nextFocusUpId?: string | Fiber;
   nextFocusLeftId?: string | Fiber;
   nextFocusRightId?: string | Fiber;
-  style?: Style;
+  style?: Style | Style[];
 
   /**
    * The focus event occurs when the component is focused.
@@ -65,7 +65,7 @@ class View extends React.Component<ViewProps, {}> {
    * @ignore
    */
   render() {
-    const { collapsable, style = {}, ...nativeProps } = this.props;
+    const {collapsable, style = {}, ...nativeProps} = this.props;
     const nativeStyle: Style = style;
     if (typeof collapsable === 'boolean') {
       nativeStyle.collapsable = collapsable;
