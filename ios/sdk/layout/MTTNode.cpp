@@ -549,6 +549,7 @@ void MTTNode::layout(float parentWidth, float parentHeight) {
 		styleWidthReset = true;
 	}
 
+    
 	bool styleHeightReset = false;
 	if(isUndefined(style.dim[DimHeight]) && isDefined(parentHeight)) {
 		float containerHeight  = parentHeight - getMargin(FLexDirectionColumn) ;

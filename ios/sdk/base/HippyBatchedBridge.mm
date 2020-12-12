@@ -1200,4 +1200,19 @@ HIPPY_NOT_IMPLEMENTED(- (instancetype)initWithBundleURL:(__unused NSURL *)bundle
     return _wasBatchActive;
 }
 
+- (void)setScreenEdgeGestureRecognizerEnable: (ScreenEdgeGestureRecognizerEnable)gestureEnable {
+    self.parentBridge.screenEdgeGestureRecognizerEnable = gestureEnable;
+}
+
+- (ScreenEdgeGestureRecognizerEnable)screenEdgeGestureRecognizerEnable {
+    return self.parentBridge.screenEdgeGestureRecognizerEnable;
+}
+
+- (void)setOnGestureBack:(HandleGestureBack)onGestureBack {
+    self.parentBridge.onGestureBack = onGestureBack;
+}
+
+- (HandleGestureBack)onGestureBack {
+    return self.parentBridge.onGestureBack;
+}
 @end

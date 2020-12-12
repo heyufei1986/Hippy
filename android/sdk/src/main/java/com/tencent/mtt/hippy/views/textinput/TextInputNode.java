@@ -15,6 +15,7 @@
  */
 package com.tencent.mtt.hippy.views.textinput;
 
+import android.graphics.Rect;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.tencent.mtt.hippy.dom.node.NodeProps;
 import com.tencent.mtt.hippy.dom.node.TextNode;
 import com.tencent.mtt.hippy.utils.ContextHolder;
 import com.tencent.mtt.hippy.utils.PixelUtil;
+import com.tencent.smtt.flexbox.FlexNodeStyle;
 
 /**
  * @Description: TODO
@@ -64,6 +66,8 @@ public class TextInputNode extends TextNode implements FlexNodeAPI.MeasureFuncti
 		{
 			mEditText = new EditText(ContextHolder.getAppContext());
 			mEditText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+      Rect padding = TextInputDefaultPadding.DefaultPadding;
+      mEditText.setPadding(padding.left, padding.top, padding.right, padding.bottom);
 
 			setDefaultPadding(FlexSpacing.START, mEditText.getPaddingLeft());
 			setDefaultPadding(FlexSpacing.TOP, mEditText.getPaddingTop());

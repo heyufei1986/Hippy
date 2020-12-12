@@ -174,7 +174,7 @@ public abstract class HippyViewController<T extends View & HippyViewBase> implem
 	/**
 	 * please use createViewImpl(Context context,HippyMap iniProps) instead ,it
 	 * will be removed no longer
-	 * 
+	 *
 	 * @param context
 	 * @return
 	 */
@@ -471,6 +471,27 @@ public abstract class HippyViewController<T extends View & HippyViewBase> implem
 			((CommonBorder) view).setBorderColor(borderBottomColor, CommonBorder.BorderWidthDirection.BOTTOM.ordinal());
 	}
 
+
+	//abcyun add
+  @HippyControllerProps(name = NodeProps.BORDER_STYLES, defaultType = HippyControllerProps.STRING)
+  public void setBorderStyle(T view, String borderStyle)
+  {
+    if (view instanceof CommonBorder) {
+      int style = 0;
+      // 0 solid,1 dashed,2 dotted
+      if ("dashed".equals(borderStyle)) {
+        style = 1;
+      }
+      else  if ("dotted".equals(borderStyle)) {
+        style = 2;
+      }
+
+      ((CommonBorder) view).setBorderStyle(style);
+    }
+  }
+
+
+
 	/** touch/click **/
 	@HippyControllerProps(name = NodeProps.ON_CLICK, defaultType = HippyControllerProps.BOOLEAN)
 	public void setClickable(T view, boolean flag)
@@ -668,7 +689,7 @@ public abstract class HippyViewController<T extends View & HippyViewBase> implem
 
 	/***
 	 * batch complete
-	 * 
+	 *
 	 * @param view
 	 */
 	public void onBatchComplete(T view)

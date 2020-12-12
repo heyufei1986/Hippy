@@ -93,6 +93,15 @@ public class RecyclerView extends RecyclerViewBase implements RecyclerViewBase.O
 		return 0;
 	}
 
+  @Override
+  public int getHeightAfter(int pos) {
+    if (mRecyclerViewAdapter != null)
+    {
+      return mRecyclerViewAdapter.getHeightAfter(pos);
+    }
+    return 0;
+  }
+
 	@Override
 	protected boolean canTranversal(int purpose, ViewHolder holder)
 	{

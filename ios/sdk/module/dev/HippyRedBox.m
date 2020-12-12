@@ -29,7 +29,8 @@
 #import "HippyUtils.h"
 #import "HippyJSStackFrame.h"
 
-#if HIPPY_DEBUG
+//#if HIPPY_DEBUG
+#if 1
 
 @class HippyRedBoxWindow;
 

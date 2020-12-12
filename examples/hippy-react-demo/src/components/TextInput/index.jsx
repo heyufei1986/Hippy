@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   ScrollView,
   TextInput,
@@ -13,12 +13,15 @@ const styles = StyleSheet.create({
   },
   input_style: {
     width: 300,
-    marginVertical: 10,
     placeholderTextColor: '#aaaaaa',
     fontSize: 16,
     color: '#242424',
-    height: 30,
-    lineHeight: 30,
+    borderColor: 'red',
+    borderWidth: 0.5,
+    // paddingTop: 2,
+    // paddingBottom: 2,
+    height: 28
+    // paddingLeft:30,
   },
   itemTitle: {
     alignItems: 'flex-start',
@@ -66,7 +69,7 @@ export default class TextInputExpo extends Component {
   }
 
   render() {
-    const { textContent } = this.state;
+    const {textContent} = this.state;
     const renderTitle = title => (
       <View style={styles.itemTitle}>
         <Text>{title}</Text>
@@ -76,9 +79,12 @@ export default class TextInputExpo extends Component {
       <ScrollView style={styles.container_style}>
         {renderTitle('text')}
         <TextInput
-          ref={(ref) => { this.input = ref; }}
+          ref={(ref) => {
+            this.input = ref;
+          }}
           style={styles.input_style}
           placeholder="text"
+          multiline={false}
           defaultValue={textContent}
         />
         <View style={styles.button} onClick={this.changeInputContent}>

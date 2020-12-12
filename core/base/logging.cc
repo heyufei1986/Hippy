@@ -48,7 +48,8 @@ LogFunction GetLoggingFunction(LoggingLevel level) {
 
 std::string GetLoggingFormat(const char* file, int line, const char* format) {
   std::ostringstream oss;
-  oss << file << "(" << line << "): " << format;
+//  oss << file << "(" << line << "): " << format;
+    oss << format;
   return oss.str();
 }
 

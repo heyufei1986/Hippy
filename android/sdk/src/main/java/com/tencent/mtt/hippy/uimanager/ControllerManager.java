@@ -16,11 +16,14 @@
 package com.tencent.mtt.hippy.uimanager;
 
 import android.annotation.SuppressLint;
+import android.graphics.Point;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
+
 import com.tencent.mtt.hippy.HippyEngineContext;
 import com.tencent.mtt.hippy.HippyInstanceLifecycleEventListener;
 import com.tencent.mtt.hippy.HippyAPIProvider;
@@ -444,29 +447,23 @@ public class ControllerManager implements HippyInstanceLifecycleEventListener
 	}
 
 	@SuppressLint("Range")
-	public void measureInWindow(int id, Promise promise)
+	public void measureInAncestor(int id, int ancestorId, Promise promise)
 	{
 		View v = mControllerRegistry.getView(id);
+    View ancestorView = mControllerRegistry.getView(ancestorId);
 		if (v == null)
 		{
 			promise.reject("this view is null");
-		}
+  }
 		else
 		{
 			int outputBuffer[] = new int[4];
-			int statusBarHeight = 0;
+			int statusBarHeight = getStatusBarHeightFromSystem();
 			try
 			{
-				v.getLocationOnScreen(outputBuffer);
-
-				// We need to remove the status bar from the height.  getLocationOnScreen will include the
-				// status bar.
-				statusBarHeight = getStatusBarHeightFromSystem();
-				if (statusBarHeight > 0)
-				{
-					outputBuffer[1] -= statusBarHeight;
-				}
-
+        Point point = findPositionInView(ancestorView, v);
+        outputBuffer[0] = point.x;
+        outputBuffer[1] = point.y;
 				// outputBuffer[0,1] already contain what we want
 				outputBuffer[2] = v.getWidth();
 				outputBuffer[3] = v.getHeight();
@@ -494,6 +491,77 @@ public class ControllerManager implements HippyInstanceLifecycleEventListener
 		}
 
 	}
+
+
+  private Point findPositionInView(View rootView, View childView)
+  {
+    View currentView = childView;
+    float x = 0;
+    float y = 0;
+
+    while(currentView!=null && rootView != currentView && (currentView.getParent() instanceof View)) {
+      x = x + currentView.getLeft();
+      y = y + currentView.getTop();
+
+      currentView = (View)currentView.getParent();
+      x -= currentView.getScrollX();
+      y -= currentView.getScrollY();
+    }
+
+    return new Point((int)x, (int)y);
+  }
+
+  @SuppressLint("Range")
+  public void measureInWindow(int id, Promise promise)
+  {
+    View v = mControllerRegistry.getView(id);
+    if (v == null)
+    {
+      promise.reject("this view is null");
+    }
+    else
+    {
+      int outputBuffer[] = new int[4];
+      int statusBarHeight = 0;
+      try
+      {
+        v.getLocationOnScreen(outputBuffer);
+
+        // We need to remove the status bar from the height.  getLocationOnScreen will include the
+        // status bar.
+        statusBarHeight = getStatusBarHeightFromSystem();
+        if (statusBarHeight > 0)
+        {
+          outputBuffer[1] -= statusBarHeight;
+        }
+
+        // outputBuffer[0,1] already contain what we want
+        outputBuffer[2] = v.getWidth();
+        outputBuffer[3] = v.getHeight();
+      }
+      catch (Throwable e)
+      {
+        promise.reject("exception" + e.getMessage());
+        e.printStackTrace();
+        return;
+      }
+
+      float x = PixelUtil.px2dp(outputBuffer[0]);
+      float y = PixelUtil.px2dp(outputBuffer[1]);
+      float width = PixelUtil.px2dp(outputBuffer[2]);
+      float height = PixelUtil.px2dp(outputBuffer[3]);
+      float fStatusbarHeight = PixelUtil.px2dp(statusBarHeight);
+
+      HippyMap hippyMap = new HippyMap();
+      hippyMap.pushDouble("x", x);
+      hippyMap.pushDouble("y", y);
+      hippyMap.pushDouble("width", width);
+      hippyMap.pushDouble("height", height);
+      hippyMap.pushDouble("statusBarHeight", fStatusbarHeight);
+      promise.resolve(hippyMap);
+    }
+
+  }
 
 	public void onManageChildComplete(String className, int id)
 	{

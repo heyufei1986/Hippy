@@ -29,4 +29,6 @@ public interface DevServerCallBack
     void onDevBundleLoadReady(File bundle);
 
     void onInitDevError(Throwable e);
+
+    void onExitDebugMode();
 }

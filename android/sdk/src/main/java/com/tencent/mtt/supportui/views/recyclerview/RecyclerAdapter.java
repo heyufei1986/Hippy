@@ -318,6 +318,33 @@ public abstract class RecyclerAdapter extends RecyclerViewBase.Adapter<RecyclerV
 		return result;
 	}
 
+  public int getHeightAfter(int pos)
+  {
+    int sum = 0;
+
+    int count = getFooterViewCount();
+
+    if(pos < -count)
+    {
+      return 0;
+    }
+
+    if (pos >= 0)
+    {
+      calculateOffsetMapIfNeed();
+      sum = mOffsetMap.get(pos);
+    }
+    else
+    {
+      for (int i = -count; i < pos; i++)
+      {
+        sum -= getFooterViewHeight(-i);
+      }
+    }
+//		Log.d("leo", "getHeightBefore:pos=" + pos + ",result=" + sum);
+    return sum;
+  }
+
 	public int getHeightBefore(int pos)
 	{
 
@@ -333,7 +360,7 @@ public abstract class RecyclerAdapter extends RecyclerViewBase.Adapter<RecyclerV
 		int count = getHeaderViewCount();
 		if (pos < -count)
 		{
-			throw new IllegalStateException("pos less than header count,should not happened");
+			throw new IllegalStateException("pos less than header count,should not happened, pos = " + pos + ", count =" + count);
 		}
 		if (pos >= 0)
 		{
@@ -1370,7 +1397,7 @@ public abstract class RecyclerAdapter extends RecyclerViewBase.Adapter<RecyclerV
 	{
 		return false;
 	}
-	
+
 	public void notifyItemsRemoved(ArrayList<Integer> positions)
 	{
 		mContentHeight = -1;
