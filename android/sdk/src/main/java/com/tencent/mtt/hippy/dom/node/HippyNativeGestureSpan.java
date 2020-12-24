@@ -183,7 +183,7 @@ public class HippyNativeGestureSpan implements NativeGestureProcessor.Callback
 	}
 
 	@Override
-	public void handle(String type, float x, float y)
+	public void handle(String type, float x, float y, MotionEvent event)
 	{
 		if (TextUtils.equals(type, NodeProps.ON_PRESS_IN))
 		{
@@ -195,19 +195,19 @@ public class HippyNativeGestureSpan implements NativeGestureProcessor.Callback
 		}
 		else if (TextUtils.equals(type, NodeProps.ON_TOUCH_DOWN))
 		{
-			NativeGestureDispatcher.handleTouchDown(mContext, mTagId, x, y, mViewId);
+			NativeGestureDispatcher.handleTouchDown(mContext, mTagId, x, y, mViewId, event);
 		}
 		else if (TextUtils.equals(type, NodeProps.ON_TOUCH_MOVE))
 		{
-			NativeGestureDispatcher.handleTouchMove(mContext, mTagId, x, y, mViewId);
+			NativeGestureDispatcher.handleTouchMove(mContext, mTagId, x, y, mViewId, event);
 		}
 		else if (TextUtils.equals(type, NodeProps.ON_TOUCH_END))
 		{
-			NativeGestureDispatcher.handleTouchEnd(mContext, mTagId, x, y, mViewId);
+			NativeGestureDispatcher.handleTouchEnd(mContext, mTagId, x, y, mViewId, event);
 		}
 		else if (TextUtils.equals(type, NodeProps.ON_TOUCH_CANCEL))
 		{
-			NativeGestureDispatcher.handleTouchCancel(mContext, mTagId, x, y, mViewId);
+			NativeGestureDispatcher.handleTouchCancel(mContext, mTagId, x, y, mViewId, event);
 		}
 	}
 

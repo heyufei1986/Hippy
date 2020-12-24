@@ -40,6 +40,12 @@ interface TouchEvent {
    * Touch coordinate Y
    */
   page_y: number;
+
+  /**
+   * 当前所有触点
+   * abcyun-add
+   */
+  touches: {page_x:number, page_y:number}[]
 }
 
 interface FocusEvent {

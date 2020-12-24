@@ -86,7 +86,7 @@ public class NativeGestureProcessor
 
 				if (mCallback.needHandle(NodeProps.ON_TOUCH_DOWN))
 				{
-					mCallback.handle(NodeProps.ON_TOUCH_DOWN, event.getX(), event.getY());
+					mCallback.handle(NodeProps.ON_TOUCH_DOWN, event.getX(), event.getY(), event);
 					handle = true;
 				}
 
@@ -110,7 +110,7 @@ public class NativeGestureProcessor
 			{
 				if (mCallback.needHandle(NodeProps.ON_TOUCH_MOVE))
 				{
-					mCallback.handle(NodeProps.ON_TOUCH_MOVE, event.getX(), event.getY());
+					mCallback.handle(NodeProps.ON_TOUCH_MOVE, event.getX(), event.getY(), event);
 					handle = true;
 				}
 
@@ -141,13 +141,13 @@ public class NativeGestureProcessor
 			{
 				if (mCallback.needHandle(NodeProps.ON_TOUCH_END))
 				{
-					mCallback.handle(NodeProps.ON_TOUCH_END, event.getX(), event.getY());
+					mCallback.handle(NodeProps.ON_TOUCH_END, event.getX(), event.getY(), event);
 					handle = true;
 				}
 
 				if (mNoPressIn && mCallback.needHandle(NodeProps.ON_PRESS_OUT))
 				{
-					mCallback.handle(NodeProps.ON_PRESS_OUT, event.getX(), event.getY());
+					mCallback.handle(NodeProps.ON_PRESS_OUT, event.getX(), event.getY(), event);
 					handle = true;
 				}
 				else if (!mNoPressIn && mCallback.needHandle(NodeProps.ON_PRESS_OUT))
@@ -163,13 +163,13 @@ public class NativeGestureProcessor
 			{
 				if (mCallback.needHandle(NodeProps.ON_TOUCH_CANCEL))
 				{
-					mCallback.handle(NodeProps.ON_TOUCH_CANCEL, event.getX(), event.getY());
+					mCallback.handle(NodeProps.ON_TOUCH_CANCEL, event.getX(), event.getY(), event);
 					handle = true;
 				}
 
 				if (mNoPressIn && mCallback.needHandle(NodeProps.ON_PRESS_OUT))
 				{
-					mCallback.handle(NodeProps.ON_PRESS_OUT, event.getX(), event.getY());
+					mCallback.handle(NodeProps.ON_PRESS_OUT, event.getX(), event.getY(), event);
 					handle = true;
 				}
 				else if (!mNoPressIn && mCallback.needHandle(NodeProps.ON_PRESS_OUT))
@@ -197,7 +197,7 @@ public class NativeGestureProcessor
 	{
 		boolean needHandle(String type);
 
-		void handle(String type, float x, float y);
+		void handle(String type, float x, float y, MotionEvent event);
 	}
 
 	private static class GestureHandler extends android.os.Handler
@@ -219,13 +219,13 @@ public class NativeGestureProcessor
 			{
 				case PRESS_IN:
 				{
-					mCallback.handle(NodeProps.ON_PRESS_IN, -1, -1);
+					mCallback.handle(NodeProps.ON_PRESS_IN, -1, -1, null);
 					mDispatcher.setNoPressIn(true);
 					break;
 				}
 				case PRESS_OUT:
 				{
-					mCallback.handle(NodeProps.ON_PRESS_OUT, -1, -1);
+					mCallback.handle(NodeProps.ON_PRESS_OUT, -1, -1, null);
 					break;
 				}
 			}

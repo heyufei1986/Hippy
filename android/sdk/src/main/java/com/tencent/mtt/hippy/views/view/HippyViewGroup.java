@@ -273,7 +273,7 @@ public class HippyViewGroup extends HippyImageView implements IHippyZIndexViewGr
 					float dy = ev.getY() - mDownY;
 					if (dy < 0 && Math.abs(dx) < Math.abs(dy) && Math.abs(dy) > mViewConfiguration.getScaledTouchSlop())
 					{
-						mGestureDispatcher.handle(NodeProps.ON_TOUCH_DOWN, mDownX, mDownY);
+						mGestureDispatcher.handle(NodeProps.ON_TOUCH_DOWN, mDownX, mDownY, ev);
 						isHandlePullUp = true;
 					}
 					break;

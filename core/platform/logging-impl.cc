@@ -29,9 +29,8 @@
 #else
 #include <stdio.h>
 #include <iostream>
-#endif  // OS_ANDROID
-
 #import <Foundation/Foundation.h>
+#endif  // OS_ANDROID
 
 namespace hippy {
 namespace platform {
