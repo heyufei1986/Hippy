@@ -8,6 +8,29 @@ import {callUIFunction} from '../modules/ui-manager-module';
 import {warn} from '../utils';
 import {LayoutEvent} from "../index";
 
+interface ScrollEvent {
+  contentInset: {
+    right: number,
+    top: number,
+    left: number,
+    bottom: number
+  },
+  layoutMeasurement: {
+    width: number,
+    height: number
+  },
+  contentSize: {
+    width: number,
+    height: number
+  },
+  zoomScale?: number,
+
+  contentOffset: {
+    x: number,
+    y: number
+  }
+}
+
 interface ScrollViewProps {
   /**
    * When true, the scroll view's children are arranged horizontally in a row
@@ -79,12 +102,12 @@ interface ScrollViewProps {
   /**
    * Called when the momentum scroll starts (scroll which occurs as the ScrollView starts gliding).
    */
-  onMomentumScrollBegin?(): void;
+  onMomentumScrollBegin?(evt:ScrollEvent): void;
 
   /**
    * Called when the momentum scroll ends (scroll which occurs as the ScrollView glides to a stop).
    */
-  onMomentumScrollEnd?(): void;
+  onMomentumScrollEnd?(evt:ScrollEvent): void;
 
   /**
    * Fires at most once per frame during scrolling.
@@ -94,17 +117,17 @@ interface ScrollViewProps {
    * @param {number} evt.contentOffset.x - Offset X of scrolling.
    * @param {number} evt.contentOffset.y - Offset Y of scrolling.
    */
-  onScroll?(evt: { contentOffset: { x: number, y: number } }): void;
+  onScroll?(evt: ScrollEvent): void;
 
   /**
    * Called when the user begins to drag the scroll view.
    */
-  onScrollBeginDrag?(): void;
+  onScrollBeginDrag?(evt:ScrollEvent): void;
 
   /**
    * Called when the user stops dragging the scroll view and it either stops or begins to glide.
    */
-  onScrollEndDrag?(): void;
+  onScrollEndDrag?(evt: ScrollEvent): void;
 
   style?: Style;
 
